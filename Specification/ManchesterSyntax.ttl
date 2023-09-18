@@ -49,7 +49,7 @@ prefix target: <https://data.rijksfinancien.nl/html/model/target/>
       rdfs:,
       sh:,
       skos:;
-    owl:versionInfo '0.2.0';
+    owl:versionInfo '0.1.0';
 	owl:versionIRI <https://github.com/floresbakker/manchestersyntax/tree/main>;
     vann:preferredNamespacePrefix 'manchester';
     vann:preferredNamespaceUri 'https://data.rijksfinancien.nl/manchestersyntax/model/def/';
@@ -99,7 +99,9 @@ select $this {
   filter not exists {
     $this owl:complementOf []
   }
-  
+  filter not exists {
+    $this owl:oneOf []
+  }
   
   # The OWL class must not have an Manchester Syntax string yet
   
@@ -530,9 +532,9 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # A OWL class restriction for which the underlying class expressions are already serialized to manchester syntax
+  # A subclass of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax
   
-  $this rdfs:subClassOf [].
+  {$this rdfs:subClassOf [].
    
   filter not exists {
     $this rdfs:subClassOf ?subClassOfClass
@@ -540,6 +542,24 @@ select $this {
 	?subClassOfClass manchester:label []
     }
   }
+  }
+  
+  
+  # Also get any subclass of some other class, the latter being undefined
+  
+  UNION 
+  
+  { $this rdfs:subClassOf ?undefinedClass.
+  filter not exists {?undefinedClass rdf:type owl:Class}
+  filter not exists {?undefinedClass rdf:type owl:Restriction}
+  filter not exists {?undefinedClass rdfs:subClassOf []}
+  filter not exists {?undefinedClass owl:equivalentClass []}
+  filter not exists {?undefinedClass owl:oneOf []}
+  filter not exists {?undefinedClass owl:unionOf []}
+  filter not exists {?undefinedClass owl:intersectionOf []}
+  filter not exists {?undefinedClass owl:complementOf []}
+  
+ }
  }
   '''.
 
@@ -557,7 +577,7 @@ prefix skos: <http://www.w3.org/2004/02/skos/core#>
 
 construct {
 
-  # create the manchester syntax for the OWL class to be serialized.
+  # create the manchester syntax for the class to be serialized.
   
   $this manchester:label ?manchesterLabel;
         manchester:definition ?manchesterDefinition. 
@@ -569,15 +589,24 @@ construct {
   {?subClassOfClass rdfs:label ?definition2}
   UNION 
   {?subClassOfClass manchester:label ?definition3}
-  # Get the label of the OWL class to be serialized.
-  BIND(CONCAT("subClassOf ", str(COALESCE(?definition1, ?definition2, ?definition3))) as ?manchesterDefinition)
+  UNION {
+  $this rdfs:subClassOf ?subClassOfClass
+  filter not exists {  ?subClassOfClass rdfs:label []. }
+  filter not exists {  ?subClassOfClass skos:prefLabel []. }
+  filter not exists {  ?subClassOfClass manchester:label []. }
+	
+  bind(replace(str(?subClassOfClass),'.*[/]','') as ?definition4)
+ }
+  # Get the definition of the class to be serialized.
+  BIND(CONCAT("subClassOf ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
   {$this rdfs:label ?label2}
   UNION 
   {$this manchester:label ?label3}
-  # Get the label of the OWL class to be serialized.
+  
+  # Get the label of the class to be serialized.
   BIND(str(COALESCE(?label1, ?label2, ?label3)) as ?manchesterLabel)
 
 
@@ -599,7 +628,7 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # A OWL class restriction for which the underlying class expressions are already serialized to manchester syntax
+  # An equivalent class of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax
   
   $this owl:equivalentClass [].
    
@@ -732,7 +761,7 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # A OWL class restriction for which the underlying class expressions are already serialized to manchester syntax
+  # A class that is the intersection of other classes for which the latter's underlying class expressions are already serialized to manchester syntax
   
   $this owl:intersectionOf [].
    
