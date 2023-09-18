@@ -54,7 +54,7 @@ def iteratePyShacl(manchester_generator, serializable_graph):
         writeGraph(serializable_graph)
              
 
-# loop through any html files in the input directory
+# loop through any turtle files in the input directory
 for filename in os.listdir(directory_path+"manchestersyntax/Tools/Input"):
     if filename.endswith(".ttl"):
         file_path = os.path.join(directory_path+"manchestersyntax/Tools/Input", filename)

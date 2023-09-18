@@ -38,6 +38,7 @@ html: a void:Dataset,
     dct:language "iso639-1:en" ;
     dct:license "http://creativecommons.org/licenses/by/4.0"^^xsd:anyURI ;
     dct:publisher <https://rijksfinancien.nl> ;
+    dct:source <https://github.com/floresbakker/htmlvoc> ;
     dct:status status:UnderDevelopment ;
     dct:subject "HTML"@en ;
     dct:title "HTML Ontology"@en ;
@@ -799,7 +800,7 @@ html:alt a owl:DatatypeProperty ;
     rdfs:subPropertyOf html:attribute ;
     skos:prefLabel "has alt"@en ;
     html:key "alt" ;
-    ns1:definition "Domain:  nd06da24c35fa47228fcebf4fa6141249b20" ;
+    ns1:definition "Domain:  nb005f34578b748ba8cc5276de7c20730b20" ;
     ns1:label "Property name:  has alt" .
 
 html:autocapitalize a owl:DatatypeProperty ;
@@ -1025,7 +1026,7 @@ html:media a owl:DatatypeProperty ;
     rdfs:subPropertyOf html:attribute ;
     skos:prefLabel "media attribute"@en ;
     html:key "media" ;
-    ns1:definition "Domain:  nd06da24c35fa47228fcebf4fa6141249b4" ;
+    ns1:definition "Domain:  nb005f34578b748ba8cc5276de7c20730b4" ;
     ns1:label "Property name:  media attribute" .
 
 html:name a owl:DatatypeProperty ;
@@ -1071,7 +1072,7 @@ html:rel a owl:DatatypeProperty ;
     rdfs:subPropertyOf html:attribute ;
     skos:prefLabel "rel attribute"@en ;
     html:key "rel" ;
-    ns1:definition "Domain:  nd06da24c35fa47228fcebf4fa6141249b1" ;
+    ns1:definition "Domain:  nb005f34578b748ba8cc5276de7c20730b1" ;
     ns1:label "Property name:  rel attribute" .
 
 html:required a owl:DatatypeProperty ;
@@ -1108,7 +1109,7 @@ html:src a owl:DatatypeProperty ;
     rdfs:subPropertyOf html:attribute ;
     skos:prefLabel "has src"@en ;
     html:key "src" ;
-    ns1:definition "Domain:  nd06da24c35fa47228fcebf4fa6141249b10" ;
+    ns1:definition "Domain:  nb005f34578b748ba8cc5276de7c20730b10" ;
     ns1:label "Property name:  has src" .
 
 html:tabindex a owl:DatatypeProperty ;
@@ -1176,7 +1177,7 @@ html:width a owl:DatatypeProperty ;
     rdfs:subPropertyOf html:attribute ;
     skos:prefLabel "has width"@en ;
     html:key "width" ;
-    ns1:definition "Domain:  nd06da24c35fa47228fcebf4fa6141249b24" ;
+    ns1:definition "Domain:  nb005f34578b748ba8cc5276de7c20730b24" ;
     ns1:label "Property name:  has width" .
 
 shp:Base a sh:NodeShape ;
