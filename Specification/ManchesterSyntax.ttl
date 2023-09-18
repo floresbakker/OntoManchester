@@ -140,7 +140,9 @@ construct {
     $this rdfs:label ?label2.
   }
   union {
-    filter not exists { {$this rdfs:label [].} UNION {$this skos:prefLabel [].} }
+    filter not exists { $this rdfs:label [].} 
+	filter not exists { $this skos:prefLabel [].}
+	# We use an heuristic based on the last part of the IRI to determine the manchester-syntax
     bind(replace(str($this),'.*[/#]','') as ?label3)
  }
   BIND(COALESCE(?label, ?label2, ?label3) as ?manchesterLabel)
@@ -218,7 +220,7 @@ construct {
   {?someProperty manchester:label ?propertyLabel3}
   
   BIND(str(COALESCE(?propertyLabel1, ?propertyLabel2, ?propertyLabel3)) as ?labelProperty)
-  BIND(CONCAT(?labelProperty, " Only ", str(?allValuesClassLabel)) as ?manchesterDefinition)
+  BIND(CONCAT(?labelProperty, " ONLY ", str(?allValuesClassLabel)) as ?manchesterDefinition)
   
   # Get the label of the OWL restriction class 
   {$this skos:prefLabel ?thisLabel1}
@@ -291,7 +293,7 @@ construct {
   ?someValuesFromClass manchester:label ?labelClass.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(?labelProperty, " Some ", str(?labelClass)) as ?manchesterlabel)
+  BIND(CONCAT(?labelProperty, " SOME ", str(?labelClass)) as ?manchesterlabel)
 
 }  '''.
 
@@ -404,7 +406,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " Exactly ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " EXACTLY ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -458,7 +460,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " max ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " MAX ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -512,7 +514,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " min ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " MIN ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -532,7 +534,7 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # A subclass of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax
+  # A subclass of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax.
   
   {$this rdfs:subClassOf [].
    
@@ -545,7 +547,7 @@ select $this {
   }
   
   
-  # Also get any subclass of some other class, the latter being undefined
+  # Also get any subclass of some other class, the latter being undefined. We will infer the manchester-syntax for this with an heuristic.
   
   UNION 
   
@@ -589,16 +591,17 @@ construct {
   {?subClassOfClass rdfs:label ?definition2}
   UNION 
   {?subClassOfClass manchester:label ?definition3}
-  UNION {
+  UNION { # There may be superclasses that unfortunately do not get defined in the turtle file. 
   $this rdfs:subClassOf ?subClassOfClass
   filter not exists {  ?subClassOfClass rdfs:label []. }
   filter not exists {  ?subClassOfClass skos:prefLabel []. }
   filter not exists {  ?subClassOfClass manchester:label []. }
-	
-  bind(replace(str(?subClassOfClass),'.*[/]','') as ?definition4)
+
+  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
+  bind(replace(str(?subClassOfClass),'.*[/#]','') as ?definition4)
  }
   # Get the definition of the class to be serialized.
-  BIND(CONCAT("subClassOf ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+  BIND(CONCAT("SUBCLASSOF ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
@@ -628,7 +631,7 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # An equivalent class of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax
+  # An equivalent class of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax.
   
   $this owl:equivalentClass [].
    
@@ -643,8 +646,8 @@ select $this {
 
   rule:Serialize_equivalentClass
     a sh:SPARQLRule;
-    rdfs:comment 'A rule that creates a manchester syntax label and definition for rdfs:equivalentClass classes.'@en;
-    skos:prefLabel 'Manchester Syntax serialisation rule for rdfs:equivalentClass classes.'@en;
+    rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:equivalentClass classes.'@en;
+    skos:prefLabel 'Manchester Syntax serialisation rule for owl:equivalentClass classes.'@en;
     sh:construct '''
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -655,7 +658,7 @@ prefix skos: <http://www.w3.org/2004/02/skos/core#>
 
 construct {
 
-  # create the manchester syntax for the OWL class to be serialized.
+  # create the manchester syntax for the class to be serialized.
   
   $this manchester:label ?manchesterLabel;
         manchester:definition ?manchesterDefinition. 
@@ -667,8 +670,8 @@ construct {
   {?equivalentClassClass rdfs:label ?definition2}
   UNION 
   {?equivalentClassClass manchester:label ?definition3}
-  # Get the label of the OWL class to be serialized.
-  BIND(CONCAT("equivalentClass ", str(COALESCE(?definition1, ?definition2, ?definition3))) as ?manchesterDefinition)
+  # Get the label of the class to be serialized.
+  BIND(CONCAT("EQUIVALENTCLASS ", str(COALESCE(?definition1, ?definition2, ?definition3))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
@@ -730,10 +733,9 @@ construct {
         manchester:definition ?manchesterDefinition. 
 } where {
 
-  {select (group_concat(?label0;separator=' or ') as ?manchesterDefinition) where {
+  {select (group_concat(?label0;separator=' OR ') as ?manchesterDefinition) where {
   $this owl:unionOf/rdf:rest*/rdf:first/manchester:label ?label0.
-  
-}
+  }
 }
   {$this skos:prefLabel ?label1}
   UNION 
@@ -794,7 +796,7 @@ construct {
         manchester:definition ?manchesterDefinition. 
 } where {
 
-  {select (group_concat(?label0;separator=' and ') as ?manchesterDefinition) where {
+  {select (group_concat(?label0;separator=' AND ') as ?manchesterDefinition) where {
   $this owl:intersectionOf/rdf:rest*/rdf:first/manchester:label ?label0.
   
 }
@@ -873,4 +875,161 @@ construct {
   BIND(str(COALESCE(?label1, ?label2, ?label3)) as ?manchesterLabel)
   BIND(CONCAT("{", ?individualLabels, "}") as ?manchesterDefinition)
 }
+'''.
+
+shp:Serializable_complementOf
+    a sh:NodeShape;
+    sh:rule rule:Serialize_complementOf;
+    sh:target target:Serializable_complementOf;
+    skos:prefLabel 'Serializable owl:complementOf shape'@en.
+
+  target:Serializable_complementOf
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select $this {
+
+  # A class that is the complement of some other class, of which the latter's underlying class expressions are already serialized to manchester syntax.
+  
+  $this owl:complementOf [].
+   
+  filter not exists {
+    $this owl:complementOf ?complementOfClass
+	filter not exists {
+	?complementOfClass manchester:label []
+    }
+  }
+ }
+  '''.
+
+  rule:Serialize_complementOf
+    a sh:SPARQLRule;
+    rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:complementOf classes.'@en;
+    skos:prefLabel 'Manchester Syntax serialisation rule for owl:complementOf classes.'@en;
+    sh:construct '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+construct {
+
+  # create the manchester syntax for the OWL class to be serialized.
+  
+  $this manchester:label ?manchesterLabel;
+        manchester:definition ?manchesterDefinition. 
+} where {
+
+  $this owl:complementOf ?complementOfClass.
+  {?complementOfClass skos:prefLabel ?definition1}
+  UNION 
+  {?complementOfClass rdfs:label ?definition2}
+  UNION 
+  {?complementOfClass manchester:label ?definition3}
+  UNION { # There may be complement classes that unfortunately do not get defined in the turtle file. 
+  $this owl:complementOf ?complementOfClass.
+  filter not exists {  ?complementOfClass rdfs:label []. }
+  filter not exists {  ?complementOfClass skos:prefLabel []. }
+  filter not exists {  ?complementOfClass manchester:label []. }
+  
+  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
+  bind(replace(str(?complementOfClass),'.*[/#]','') as ?definition4)
+  }
+  # Get the label of the class to be serialized.
+  BIND(CONCAT("NOT ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+
+  {$this skos:prefLabel ?label1}
+  UNION 
+  {$this rdfs:label ?label2}
+  UNION 
+  {$this manchester:label ?label3}
+  # Get the label of the class to be serialized.
+  BIND(str(COALESCE(?label1, ?label2, ?label3)) as ?manchesterLabel)
+
+} 
+'''.
+
+shp:Serializable_datatypeProperty
+    a sh:NodeShape;
+    #sh:rule rule:Serialize_datatypeProperty;
+    sh:target target:Serialize_datatypeProperty;
+    skos:prefLabel 'Serializable owl:DatatypeProperty shape'@en.
+
+  target:Serialize_datatypeProperty
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select $this {
+
+  # A datatype property with rdfs:domain of a class for which underlying class expressions are already serialized to manchester syntax
+  
+  $this rdf:type owl:DatatypeProperty.
+   
+  filter not exists {
+    $this rdfs:domain ?someClass.
+	filter not exists {
+	?someClass manchester:label []
+    }
+  }
+ }
+  '''.
+
+
+  rule:Serialize_datatypeProperty
+    a sh:SPARQLRule;
+    rdfs:comment 'A rule that creates a manchester syntax label and definition for the rdfs:domain of an owl:DatatypeProperty.'@en;
+    skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty.'@en;
+    sh:construct '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+construct {
+
+  # create the manchester syntax for the OWL class to be serialized.
+  
+  $this manchester:label ?manchesterLabel;
+        manchester:definition ?manchesterDefinition. 
+} where {
+
+  $this rdfs:domain ?domainClass.
+  {?domainClass skos:prefLabel ?definition1}
+  UNION 
+  {?domainClass rdfs:label ?definition2}
+  UNION 
+  {?domainClass manchester:label ?definition3}
+  UNION { # There may be classes that unfortunately do not get defined in the turtle file. 
+  $this rdfs:domain ?domainClass.
+  filter not exists {  ?domainClass rdfs:label []. }
+  filter not exists {  ?domainClass skos:prefLabel []. }
+  filter not exists {  ?domainClass manchester:label []. }
+  
+  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
+  bind(replace(str(?domainClass),'.*[/#]','') as ?definition4)
+  }
+  # Get the label of the domain class to be serialized.
+  BIND(CONCAT("Domain:  ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+
+  {$this skos:prefLabel ?label1}
+  UNION 
+  {$this rdfs:label ?label2}
+  UNION 
+  {$this manchester:label ?label3}
+  # Get the label of the datatype property to be serialized.
+  BIND(CONCAT("Property name:  ",str(COALESCE(?label1, ?label2, ?label3))) as ?manchesterLabel)
+
+} 
 '''.

@@ -63,7 +63,7 @@ html:Abbr a owl:Class ;
     skos:definition "The <abbr> HTML element represents an abbreviation or acronym; the optional title attribute can provide an expansion or description for the abbreviation. If present, title must contain this full description and nothing else."@en ;
     skos:prefLabel "abbr element"@en ;
     html:tag "abbr" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "abbr element" .
 
 html:Address a owl:Class ;
@@ -72,7 +72,7 @@ html:Address a owl:Class ;
     skos:definition "The <address> HTML element indicates that the enclosed HTML provides contact information for a person or people, or for an organization."@en ;
     skos:prefLabel "address element"@en ;
     html:tag "address" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "address element" .
 
 html:Article a owl:Class ;
@@ -81,7 +81,7 @@ html:Article a owl:Class ;
     skos:definition "The <article> HTML element represents a self-contained composition in a document, page, application, or site, which is intended to be independently distributable or reusable (e.g., in syndication). Examples include: a forum post, a magazine or newspaper article, or a blog entry, a product card, a user-submitted comment, an interactive widget or gadget, or any other independent item of content."@en ;
     skos:prefLabel "article element"@en ;
     html:tag "article" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "article element" .
 
 html:Aside a owl:Class ;
@@ -90,7 +90,7 @@ html:Aside a owl:Class ;
     skos:definition "The <aside> HTML element represents a portion of a document whose content is only indirectly related to the document's main content. Asides are frequently presented as sidebars or call-out boxes."@en ;
     skos:prefLabel "aside element"@en ;
     html:tag "aside" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "aside element" .
 
 html:B a owl:Class ;
@@ -99,7 +99,7 @@ html:B a owl:Class ;
     skos:definition "The <b> HTML element is used to draw the reader's attention to the element's contents, which are not otherwise granted special importance. This was formerly known as the Boldface element, and most browsers still draw the text in boldface. However, you should not use <b> for styling text; instead, you should use the CSS font-weight property to create boldface text, or the <strong> element to indicate that text is of special importance."@en ;
     skos:prefLabel "b element"@en ;
     html:tag "b" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "b element" .
 
 html:Bdi a owl:Class ;
@@ -108,7 +108,7 @@ html:Bdi a owl:Class ;
     skos:definition "The <bdi> HTML element tells the browser's bidirectional algorithm to treat the text it contains in isolation from its surrounding text. It's particularly useful when a website dynamically inserts some text and doesn't know the directionality of the text being inserted."@en ;
     skos:prefLabel "bdi element"@en ;
     html:tag "bdi" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "bdi element" .
 
 html:Bdo a owl:Class ;
@@ -117,7 +117,7 @@ html:Bdo a owl:Class ;
     skos:definition "The <bdo> HTML element overrides the current directionality of text, so that the text within is rendered in a different direction."@en ;
     skos:prefLabel "bdo element"@en ;
     html:tag "bdo" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "bdo element" .
 
 html:Blockquote a owl:Class ;
@@ -126,7 +126,7 @@ html:Blockquote a owl:Class ;
     skos:definition "The <blockquote> HTML element indicates that the enclosed text is an extended quotation. Usually, this is rendered visually by indentation (see Notes for how to change it). A URL for the source of the quotation may be given using the cite attribute, while a text representation of the source can be given using the <cite> element."@en ;
     skos:prefLabel "blockquote element"@en ;
     html:tag "blockquote" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "blockquote element" .
 
 html:Br a owl:Class ;
@@ -135,7 +135,7 @@ html:Br a owl:Class ;
     skos:definition "The <br> HTML element produces a line break in text (carriage-return). It is useful for writing a poem or an address, where the division of lines is significant."@en ;
     skos:prefLabel "br element"@en ;
     html:tag "br" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "br element" .
 
 html:Button a owl:Class ;
@@ -144,7 +144,7 @@ html:Button a owl:Class ;
     skos:definition "The <button> HTML element represents a clickable button, used to submit forms or anywhere in a document for accessible, standard button functionality."@en ;
     skos:prefLabel "button element"@en ;
     html:tag "button" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "button element" .
 
 html:Cite a owl:Class ;
@@ -153,7 +153,7 @@ html:Cite a owl:Class ;
     skos:definition "The <cite> HTML element is used to describe a reference to a cited creative work, and must include the title of that work. The reference may be in an abbreviated form according to context-appropriate conventions related to citation metadata."@en ;
     skos:prefLabel "cite element"@en ;
     html:tag "cite" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "cite element" .
 
 html:Code a owl:Class ;
@@ -162,7 +162,7 @@ html:Code a owl:Class ;
     skos:definition "The <code> HTML element displays its contents styled in a fashion intended to indicate that the text is a short fragment of computer code. By default, the content text is displayed using the user agent's default monospace font."@en ;
     skos:prefLabel "code element"@en ;
     html:tag "code" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "code element" .
 
 html:Col a owl:Class ;
@@ -171,7 +171,7 @@ html:Col a owl:Class ;
     skos:definition "The <col> HTML element defines a column within a table and is used for defining common semantics on all common cells. It is generally found within a <colgroup> element."@en ;
     skos:prefLabel "col element"@en ;
     html:tag "col" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "col element" .
 
 html:Colgroup a owl:Class ;
@@ -180,7 +180,7 @@ html:Colgroup a owl:Class ;
     skos:definition "The <colgroup> HTML element defines a group of columns within a table."@en ;
     skos:prefLabel "colgroup element"@en ;
     html:tag "colgroup" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "colgroup element" .
 
 html:Data a owl:Class ;
@@ -189,7 +189,7 @@ html:Data a owl:Class ;
     skos:definition "The <data> HTML element links a given piece of content with a machine-readable translation. If the content is time- or date-related, the <time> element must be used."@en ;
     skos:prefLabel "data element"@en ;
     html:tag "data" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "data element" .
 
 html:Datalist a owl:Class ;
@@ -198,7 +198,7 @@ html:Datalist a owl:Class ;
     skos:definition "The <datalist> HTML element contains a set of <option> elements that represent the permissible or recommended options available to choose from within other controls."@en ;
     skos:prefLabel "datalist element"@en ;
     html:tag "datalist" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "datalist element" .
 
 html:Dd a owl:Class ;
@@ -207,7 +207,7 @@ html:Dd a owl:Class ;
     skos:definition "The <dd> HTML element provides the description, definition, or value for the preceding term (<dt>) in a description list (<dl>)."@en ;
     skos:prefLabel "dd element"@en ;
     html:tag "dd" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "dd element" .
 
 html:Del a owl:Class ;
@@ -216,7 +216,7 @@ html:Del a owl:Class ;
     skos:definition "The <del> HTML element represents a range of text that has been deleted from a document. This can be used when rendering \"track changes\" or source code diff information, for example. The <ins> element can be used for the opposite purpose: to indicate text that has been added to the document."@en ;
     skos:prefLabel "del element"@en ;
     html:tag "del" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "del element" .
 
 html:Details a owl:Class ;
@@ -225,7 +225,7 @@ html:Details a owl:Class ;
     skos:definition "The <details> HTML element creates a disclosure widget in which information is visible only when the widget is toggled into an \"open\" state. A summary or label must be provided using the <summary> element."@en ;
     skos:prefLabel "details element"@en ;
     html:tag "details" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "details element" .
 
 html:Dfn a owl:Class ;
@@ -234,7 +234,7 @@ html:Dfn a owl:Class ;
     skos:definition "The <dfn> HTML element is used to indicate the term being defined within the context of a definition phrase or sentence. The <p> element, the <dt>/<dd> pairing, or the <section> element which is the nearest ancestor of the <dfn> is considered to be the definition of the term."@en ;
     skos:prefLabel "dfn element"@en ;
     html:tag "dfn" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "dfn element" .
 
 html:Dialog a owl:Class ;
@@ -243,7 +243,7 @@ html:Dialog a owl:Class ;
     skos:definition "The <dialog> HTML element represents a dialog box or other interactive component, such as a dismissible alert, inspector, or subwindow."@en ;
     skos:prefLabel "dialog element"@en ;
     html:tag "dialog" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "dialog element" .
 
 html:Div a owl:Class ;
@@ -252,7 +252,7 @@ html:Div a owl:Class ;
     skos:definition "The <div> HTML element is the generic container for flow content. It has no effect on the content or layout until styled in some way using CSS (e.g. styling is directly applied to it, or some kind of layout model like Flexbox is applied to its parent element)."@en ;
     skos:prefLabel "div element"@en ;
     html:tag "div" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "div element" .
 
 html:Dl a owl:Class ;
@@ -261,7 +261,7 @@ html:Dl a owl:Class ;
     skos:definition "The <dl> HTML element represents a description list. The element encloses a list of groups of terms (specified using the <dt> element) and descriptions (provided by <dd> elements). Common uses for this element are to implement a glossary or to display metadata (a list of key-value pairs)."@en ;
     skos:prefLabel "dl element"@en ;
     html:tag "dl" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "dl element" .
 
 html:Document a owl:Class ;
@@ -276,7 +276,7 @@ html:Dt a owl:Class ;
     skos:definition "The <dt> HTML element specifies a term in a description or definition list, and as such must be used inside a <dl> element. It is usually followed by a <dd> element; however, multiple <dt> elements in a row indicate several terms that are all defined by the immediate next <dd> element."@en ;
     skos:prefLabel "dt element"@en ;
     html:tag "dt" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "dt element" .
 
 html:Em a owl:Class ;
@@ -285,7 +285,7 @@ html:Em a owl:Class ;
     skos:definition "The <em> HTML element marks text that has stress emphasis. The <em> element can be nested, with each level of nesting indicating a greater degree of emphasis."@en ;
     skos:prefLabel "em element"@en ;
     html:tag "em" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "em element" .
 
 html:Fieldset a owl:Class ;
@@ -294,7 +294,7 @@ html:Fieldset a owl:Class ;
     skos:definition "The <fieldset> HTML element is used to group several controls as well as labels (<label>) within a web form."@en ;
     skos:prefLabel "fieldset element"@en ;
     html:tag "fieldset" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "fieldset element" .
 
 html:Figcaption a owl:Class ;
@@ -303,7 +303,7 @@ html:Figcaption a owl:Class ;
     skos:definition "The <figcaption> HTML element represents a caption or legend describing the rest of the contents of its parent <figure> element."@en ;
     skos:prefLabel "figcaption element"@en ;
     html:tag "figcaption" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "figcaption element" .
 
 html:Figure a owl:Class ;
@@ -312,7 +312,7 @@ html:Figure a owl:Class ;
     skos:definition "The <figure> HTML element represents self-contained content, potentially with an optional caption, which is specified using the <figcaption> element. The figure, its caption, and its contents are referenced as a single unit."@en ;
     skos:prefLabel "figure element"@en ;
     html:tag "figure" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "figure element" .
 
 html:Footer a owl:Class ;
@@ -321,7 +321,7 @@ html:Footer a owl:Class ;
     skos:definition "The <footer> HTML element represents a footer for its nearest sectioning content or sectioning root element. A <footer> typically contains information about the author of the section, copyright data or links to related documents."@en ;
     skos:prefLabel "footer element"@en ;
     html:tag "footer" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "footer element" .
 
 html:H1 a owl:Class ;
@@ -330,7 +330,7 @@ html:H1 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h1 element"@en ;
     html:tag "h1" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h1 element" .
 
 html:H2 a owl:Class ;
@@ -339,7 +339,7 @@ html:H2 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h2 element"@en ;
     html:tag "h2" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h2 element" .
 
 html:H3 a owl:Class ;
@@ -348,7 +348,7 @@ html:H3 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h3 element"@en ;
     html:tag "h3" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h3 element" .
 
 html:H4 a owl:Class ;
@@ -357,7 +357,7 @@ html:H4 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h4 element"@en ;
     html:tag "h4" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h4 element" .
 
 html:H5 a owl:Class ;
@@ -366,7 +366,7 @@ html:H5 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h5 element"@en ;
     html:tag "h5" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h5 element" .
 
 html:H6 a owl:Class ;
@@ -375,7 +375,7 @@ html:H6 a owl:Class ;
     skos:definition "The <h1> to <h6> HTML elements represent six levels of section headings. <h1> is the highest section level and <h6> is the lowest."@en ;
     skos:prefLabel "h6 element"@en ;
     html:tag "h6" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "h6 element" .
 
 html:Header a owl:Class ;
@@ -384,7 +384,7 @@ html:Header a owl:Class ;
     skos:definition "The <header> HTML element represents introductory content, typically a group of introductory or navigational aids. It may contain some heading elements but also a logo, a search form, an author name, and other elements."@en ;
     skos:prefLabel "header element"@en ;
     html:tag "header" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "header element" .
 
 html:Hgroup a owl:Class ;
@@ -393,7 +393,7 @@ html:Hgroup a owl:Class ;
     skos:definition "The <hgroup> HTML element represents a multi-level heading for a section of a document. It groups a set of <h1>–<h6> elements."@en ;
     skos:prefLabel "hgroup element"@en ;
     html:tag "hgroup" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "hgroup element" .
 
 html:Hr a owl:Class ;
@@ -402,7 +402,7 @@ html:Hr a owl:Class ;
     skos:definition "The <hr> HTML element represents a thematic break between paragraph-level elements: for example, a change of scene in a story, or a shift of topic within a section."@en ;
     skos:prefLabel "hr element"@en ;
     html:tag "hr" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "hr element" .
 
 html:I a owl:Class ;
@@ -411,7 +411,7 @@ html:I a owl:Class ;
     skos:definition "The <i> HTML element represents a range of text that is set off from the normal text for some reason, such as idiomatic text, technical terms, taxonomical designations, among others. Historically, these have been presented using italicized type, which is the original source of the <i> naming of this element."@en ;
     skos:prefLabel "i element"@en ;
     html:tag "i" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "i element" .
 
 html:Ins a owl:Class ;
@@ -420,7 +420,7 @@ html:Ins a owl:Class ;
     skos:definition "The <ins> HTML element represents a range of text that has been added to a document. You can use the <del> element to similarly represent a range of text that has been deleted from the document."@en ;
     skos:prefLabel "ins element"@en ;
     html:tag "ins" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "ins element" .
 
 html:Kbd a owl:Class ;
@@ -429,7 +429,7 @@ html:Kbd a owl:Class ;
     skos:definition "The <kbd> HTML element represents a span of inline text denoting textual user input from a keyboard, voice input, or any other text entry device. By convention, the user agent defaults to rendering the contents of a <kbd> element using its default monospace font, although this is not mandated by the HTML standard."@en ;
     skos:prefLabel "kbd element"@en ;
     html:tag "kbd" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "kbd element" .
 
 html:Legend a owl:Class ;
@@ -438,7 +438,7 @@ html:Legend a owl:Class ;
     skos:definition "The <legend> HTML element represents a caption for the content of its parent <fieldset>."@en ;
     skos:prefLabel "legend element"@en ;
     html:tag "legend" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "legend element" .
 
 html:Li a owl:Class ;
@@ -447,7 +447,7 @@ html:Li a owl:Class ;
     skos:definition "The <li> HTML element is used to represent an item in a list. It must be contained in a parent element: an ordered list (<ol>), an unordered list (<ul>), or a menu (<menu>). In menus and unordered lists, list items are usually displayed using bullet points. In ordered lists, they are usually displayed with an ascending counter on the left, such as a number or letter."@en ;
     skos:prefLabel "li element"@en ;
     html:tag "li" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "li element" .
 
 html:Main a owl:Class ;
@@ -456,7 +456,7 @@ html:Main a owl:Class ;
     skos:definition "The <main> HTML element represents the dominant content of the <body> of a document. The main content area consists of content that is directly related to or expands upon the central topic of a document, or the central functionality of an application."@en ;
     skos:prefLabel "main element"@en ;
     html:tag "main" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "main element" .
 
 html:Map a owl:Class ;
@@ -465,7 +465,7 @@ html:Map a owl:Class ;
     skos:definition "The <map> HTML element is used with <area> elements to define an image map (a clickable link area)."@en ;
     skos:prefLabel "map element"@en ;
     html:tag "map" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "map element" .
 
 html:Mark a owl:Class ;
@@ -474,7 +474,7 @@ html:Mark a owl:Class ;
     skos:definition "The <mark> HTML element represents text which is marked or highlighted for reference or notation purposes, due to the marked passage's relevance or importance in the enclosing context."@en ;
     skos:prefLabel "mark element"@en ;
     html:tag "mark" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "mark element" .
 
 html:Menu a owl:Class ;
@@ -483,7 +483,7 @@ html:Menu a owl:Class ;
     skos:definition "The <menu> HTML element is a semantic alternative to <ul>. It represents an unordered list of items (represented by <li> elements), each of these represent a link or other command that the user can activate."@en ;
     skos:prefLabel "menu element"@en ;
     html:tag "menu" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "menu element" .
 
 html:Meter a owl:Class ;
@@ -492,7 +492,7 @@ html:Meter a owl:Class ;
     skos:definition "The <meter> HTML element represents either a scalar value within a known range or a fractional value."@en ;
     skos:prefLabel "meter element"@en ;
     html:tag "meter" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "meter element" .
 
 html:Nav a owl:Class ;
@@ -501,7 +501,7 @@ html:Nav a owl:Class ;
     skos:definition "The <nav> HTML element represents a section of a page whose purpose is to provide navigation links, either within the current document or to other documents. Common examples of navigation sections are menus, tables of contents, and indexes."@en ;
     skos:prefLabel "nav element"@en ;
     html:tag "nav" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "nav element" .
 
 html:Noscript a owl:Class ;
@@ -510,7 +510,7 @@ html:Noscript a owl:Class ;
     skos:definition "The <noscript> HTML element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser."@en ;
     skos:prefLabel "noscript element"@en ;
     html:tag "noscript" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "noscript element" .
 
 html:Ol a owl:Class ;
@@ -519,7 +519,7 @@ html:Ol a owl:Class ;
     skos:definition "The <ol> HTML element represents an ordered list of items — typically rendered as a numbered list."@en ;
     skos:prefLabel "ol element"@en ;
     html:tag "ol" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "ol element" .
 
 html:Optgroup a owl:Class ;
@@ -528,7 +528,7 @@ html:Optgroup a owl:Class ;
     skos:definition "The <optgroup> HTML element creates a grouping of options within a <select> element."@en ;
     skos:prefLabel "optgroup element"@en ;
     html:tag "optgroup" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "optgroup element" .
 
 html:Option a owl:Class ;
@@ -537,7 +537,7 @@ html:Option a owl:Class ;
     skos:definition "The <option> HTML element is used to define an item contained in a <select>, an <optgroup>, or a <datalist> element. As such, <option> can represent menu items in popups and other lists of items in an HTML document."@en ;
     skos:prefLabel "option element"@en ;
     html:tag "option" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "option element" .
 
 html:Output a owl:Class ;
@@ -546,7 +546,7 @@ html:Output a owl:Class ;
     skos:definition "The <output> HTML element is a container element into which a site or app can inject the results of a calculation or the outcome of a user action."@en ;
     skos:prefLabel "output element"@en ;
     html:tag "output" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "output element" .
 
 html:P a owl:Class ;
@@ -555,7 +555,7 @@ html:P a owl:Class ;
     skos:definition "The <p> HTML element represents a paragraph. Paragraphs are usually represented in visual media as blocks of text separated from adjacent blocks by blank lines and/or first-line indentation, but HTML paragraphs can be any structural grouping of related content, such as images or form fields."@en ;
     skos:prefLabel "p element"@en ;
     html:tag "p" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "p element" .
 
 html:Picture a owl:Class ;
@@ -564,7 +564,7 @@ html:Picture a owl:Class ;
     skos:definition "The <picture> HTML element contains zero or more <source> elements and one <img> element to offer alternative versions of an image for different display/device scenarios."@en ;
     skos:prefLabel "picture element"@en ;
     html:tag "picture" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "picture element" .
 
 html:Pre a owl:Class ;
@@ -573,7 +573,7 @@ html:Pre a owl:Class ;
     skos:definition "The <pre> HTML element represents preformatted text which is to be presented exactly as written in the HTML file. The text is typically rendered using a non-proportional, or monospaced, font. Whitespace inside this element is displayed as written."@en ;
     skos:prefLabel "pre element"@en ;
     html:tag "pre" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "pre element" .
 
 html:Progress a owl:Class ;
@@ -582,7 +582,7 @@ html:Progress a owl:Class ;
     skos:definition "The <progress> HTML element displays an indicator showing the completion progress of a task, typically displayed as a progress bar."@en ;
     skos:prefLabel "progress element"@en ;
     html:tag "progress" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "progress element" .
 
 html:Q a owl:Class ;
@@ -591,7 +591,7 @@ html:Q a owl:Class ;
     skos:definition "The <q> HTML element indicates that the enclosed text is a short inline quotation. Most modern browsers implement this by surrounding the text in quotation marks. This element is intended for short quotations that don't require paragraph breaks; for long quotations use the <blockquote> element."@en ;
     skos:prefLabel "q element"@en ;
     html:tag "q" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "q element" .
 
 html:Rp a owl:Class ;
@@ -600,7 +600,7 @@ html:Rp a owl:Class ;
     skos:definition "The <rp> HTML element is used to provide fall-back parentheses for browsers that do not support display of ruby annotations using the <ruby> element. One <rp> element should enclose each of the opening and closing parentheses that wrap the <rt> element that contains the annotation's text."@en ;
     skos:prefLabel "rp element"@en ;
     html:tag "rp" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "rp element" .
 
 html:Rt a owl:Class ;
@@ -609,7 +609,7 @@ html:Rt a owl:Class ;
     skos:definition "The <rt> HTML element specifies the ruby text component of a ruby annotation, which is used to provide pronunciation, translation, or transliteration information for East Asian typography. The <rt> element must always be contained within a <ruby> element."@en ;
     skos:prefLabel "rt element"@en ;
     html:tag "rt" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "rt element" .
 
 html:Ruby a owl:Class ;
@@ -618,7 +618,7 @@ html:Ruby a owl:Class ;
     skos:definition "The <ruby> HTML element represents small annotations that are rendered above, below, or next to base text, usually used for showing the pronunciation of East Asian characters. It can also be used for annotating other kinds of text, but this usage is less common."@en ;
     skos:prefLabel "ruby element"@en ;
     html:tag "ruby" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "ruby element" .
 
 html:S a owl:Class ;
@@ -627,7 +627,7 @@ html:S a owl:Class ;
     skos:definition "The <s> HTML element renders text with a strikethrough, or a line through it. Use the <s> element to represent things that are no longer relevant or no longer accurate. However, <s> is not appropriate when indicating document edits; for that, use the <del> and <ins> elements, as appropriate."@en ;
     skos:prefLabel "s element"@en ;
     html:tag "s" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "s element" .
 
 html:Samp a owl:Class ;
@@ -636,7 +636,7 @@ html:Samp a owl:Class ;
     skos:definition "The <samp> HTML element is used to enclose inline text which represents sample (or quoted) output from a computer program. Its contents are typically rendered using the browser's default monospaced font (such as Courier or Lucida Console)."@en ;
     skos:prefLabel "samp element"@en ;
     html:tag "samp" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "samp element" .
 
 html:Section a owl:Class ;
@@ -645,7 +645,7 @@ html:Section a owl:Class ;
     skos:definition "The <section> HTML element represents a generic standalone section of a document, which doesn't have a more specific semantic element to represent it. Sections should always have a heading, with very few exceptions."@en ;
     skos:prefLabel "section element"@en ;
     html:tag "section" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "section element" .
 
 html:Select a owl:Class ;
@@ -654,7 +654,7 @@ html:Select a owl:Class ;
     skos:definition "The <select> HTML element represents a control that provides a menu of options:"@en ;
     skos:prefLabel "select element"@en ;
     html:tag "select" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "select element" .
 
 html:Slot a owl:Class ;
@@ -663,7 +663,7 @@ html:Slot a owl:Class ;
     skos:definition "The <slot> HTML element—part of the Web Components technology suite—is a placeholder inside a web component that you can fill with your own markup, which lets you create separate DOM trees and present them together."@en ;
     skos:prefLabel "slot element"@en ;
     html:tag "slot" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "slot element" .
 
 html:Small a owl:Class ;
@@ -672,7 +672,7 @@ html:Small a owl:Class ;
     skos:definition "The <small> HTML element represents side-comments and small print, like copyright and legal text, independent of its styled presentation. By default, it renders text within it one font-size smaller, such as from small to x-small."@en ;
     skos:prefLabel "small element"@en ;
     html:tag "small" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "small element" .
 
 html:Span a owl:Class ;
@@ -681,7 +681,7 @@ html:Span a owl:Class ;
     skos:definition "The <span> HTML element is a generic inline container for phrasing content, which does not inherently represent anything. It can be used to group elements for styling purposes (using the class or id attributes), or because they share attribute values, such as lang. It should be used only when no other semantic element is appropriate. <span> is very much like a <div> element, but <div> is a block-level element whereas a <span> is an inline element."@en ;
     skos:prefLabel "span element"@en ;
     html:tag "span" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "span element" .
 
 html:Strong a owl:Class ;
@@ -690,7 +690,7 @@ html:Strong a owl:Class ;
     skos:definition "The <strong> HTML element indicates that its contents have strong importance, seriousness, or urgency. Browsers typically render the contents in bold type."@en ;
     skos:prefLabel "strong element"@en ;
     html:tag "strong" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "strong element" .
 
 html:Sub a owl:Class ;
@@ -699,7 +699,7 @@ html:Sub a owl:Class ;
     skos:definition "The <sub> HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text."@en ;
     skos:prefLabel "sub element"@en ;
     html:tag "sub" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "sub element" .
 
 html:Summary a owl:Class ;
@@ -708,7 +708,7 @@ html:Summary a owl:Class ;
     skos:definition "The <summary> HTML element specifies a summary, caption, or legend for a <details> element's disclosure box. Clicking the <summary> element toggles the state of the parent <details> element open and closed."@en ;
     skos:prefLabel "summary element"@en ;
     html:tag "summary" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "summary element" .
 
 html:Sup a owl:Class ;
@@ -717,7 +717,7 @@ html:Sup a owl:Class ;
     skos:definition "The <sub> HTML element specifies inline text which should be displayed as subscript for solely typographical reasons. Subscripts are typically rendered with a lowered baseline using smaller text."@en ;
     skos:prefLabel "sup element"@en ;
     html:tag "sup" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "sup element" .
 
 html:Textarea a owl:Class ;
@@ -726,7 +726,7 @@ html:Textarea a owl:Class ;
     skos:definition "The <textarea> HTML element represents a multi-line plain-text editing control, useful when you want to allow users to enter a sizeable amount of free-form text, for example a comment on a review or feedback form."@en ;
     skos:prefLabel "textarea element"@en ;
     html:tag "textarea" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "textarea element" .
 
 html:Time a owl:Class ;
@@ -735,7 +735,7 @@ html:Time a owl:Class ;
     skos:definition "The <time> HTML element represents a specific period in time. It may include the datetime attribute to translate dates into machine-readable format, allowing for better search engine results or custom features such as reminders."@en ;
     skos:prefLabel "time element"@en ;
     html:tag "time" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "time element" .
 
 html:U a owl:Class ;
@@ -744,7 +744,7 @@ html:U a owl:Class ;
     skos:definition "The <u> HTML element represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation. This is rendered by default as a simple solid underline, but may be altered using CSS."@en ;
     skos:prefLabel "u element"@en ;
     html:tag "u" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "u element" .
 
 html:Ul a owl:Class ;
@@ -753,7 +753,7 @@ html:Ul a owl:Class ;
     skos:definition "The <ul> HTML element represents an unordered list of items, typically rendered as a bulleted list."@en ;
     skos:prefLabel "ul element"@en ;
     html:tag "ul" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "ul element" .
 
 html:Var a owl:Class ;
@@ -762,7 +762,7 @@ html:Var a owl:Class ;
     skos:definition "The <var> HTML element represents the name of a variable in a mathematical expression or a programming context. It's typically presented using an italicized version of the current typeface, although that behavior is browser-dependent."@en ;
     skos:prefLabel "var element"@en ;
     html:tag "var" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "var element" .
 
 html:Wbr a owl:Class ;
@@ -771,7 +771,7 @@ html:Wbr a owl:Class ;
     skos:definition "The <wbr> HTML element represents a word break opportunity—a position within text where the browser may optionally break a line, though its line-breaking rules would not otherwise create a break at that location."@en ;
     skos:prefLabel "wbr element"@en ;
     html:tag "wbr" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "wbr element" .
 
 html:accesskey a owl:DatatypeProperty ;
@@ -1758,7 +1758,7 @@ html:Audio a owl:Class ;
     skos:definition "The <audio> HTML element is used to embed sound content in documents. It may contain one or more audio sources, represented using the src attribute or the <source> element: the browser will choose the most suitable one. It can also be the destination for streamed media, using a MediaStream."@en ;
     skos:prefLabel "audio element"@en ;
     html:tag "audio" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "audio element" .
 
 html:Base a owl:Class ;
@@ -1767,7 +1767,7 @@ html:Base a owl:Class ;
     skos:definition "The <base> HTML element specifies the base URL to use for all relative URLs in a document. There can be only one <base> element in a document."@en ;
     skos:prefLabel "base element"@en ;
     html:tag "base" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "base element" .
 
 html:Canvas a owl:Class ;
@@ -1776,7 +1776,7 @@ html:Canvas a owl:Class ;
     skos:definition "Use the HTML <canvas> element with either the canvas scripting API or the WebGL API to draw graphics and animations."@en ;
     skos:prefLabel "canvas element"@en ;
     html:tag "canvas" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "canvas element" .
 
 html:Form a owl:Class ;
@@ -1785,7 +1785,7 @@ html:Form a owl:Class ;
     skos:definition "The <form> HTML element represents a document section containing interactive controls for submitting information."@en ;
     skos:prefLabel "form element"@en ;
     html:tag "form" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "form element" .
 
 html:Label a owl:Class ;
@@ -1794,7 +1794,7 @@ html:Label a owl:Class ;
     skos:definition "The <label> HTML element represents a caption for an item in a user interface."@en ;
     skos:prefLabel "label element"@en ;
     html:tag "label" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "label element" .
 
 html:Object a owl:Class ;
@@ -1803,7 +1803,7 @@ html:Object a owl:Class ;
     skos:definition "The <object> HTML element represents an external resource, which can be treated as an image, a nested browsing context, or a resource to be handled by a plugin."@en ;
     skos:prefLabel "object element"@en ;
     html:tag "object" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "object element" .
 
 html:Row a owl:Class ;
@@ -1812,8 +1812,8 @@ html:Row a owl:Class ;
     owl:unionOf ( html:DataRow html:HeaderRow ) ;
     skos:prefLabel "row"@en ;
     html:tag "tr" ;
-    ns1:definition "data row or header row",
-        "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element",
+        "data row OR header row" ;
     ns1:label "row" .
 
 html:Script a owl:Class ;
@@ -1822,7 +1822,7 @@ html:Script a owl:Class ;
     skos:definition "The <script> HTML element is used to embed executable code or data; this is typically used to embed or refer to JavaScript code. The <script> element can also be used with other languages, such as WebGL's GLSL shader programming language and JSON."@en ;
     skos:prefLabel "script element"@en ;
     html:tag "script" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "script element" .
 
 html:Table a owl:Class ;
@@ -1831,7 +1831,7 @@ html:Table a owl:Class ;
     skos:definition "A table (<table> element) represents data with more than one dimension.  Tables have rows, columns, and cells given by their descendants.  The rows and columns form a grid; a table its cells must completely cover that grid without overlap."@en ;
     skos:prefLabel "table"@en ;
     html:tag "table" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "table" .
 
 html:TableFooter a owl:Class ;
@@ -1840,7 +1840,7 @@ html:TableFooter a owl:Class ;
     skos:definition "The table footer (<tfoot> element) represents the block of rows that consist of the column summaries (footers) for the parent table."@en ;
     skos:prefLabel "table footer"@en ;
     html:tag "tfoot" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "table footer" .
 
 html:Template a owl:Class ;
@@ -1849,7 +1849,7 @@ html:Template a owl:Class ;
     skos:definition "The <template> HTML element is a mechanism for holding HTML that is not to be rendered immediately when a page is loaded but may be instantiated subsequently during runtime using JavaScript."@en ;
     skos:prefLabel "template element"@en ;
     html:tag "template" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "template element" .
 
 html:TextElement a owl:Class ;
@@ -1858,7 +1858,7 @@ html:TextElement a owl:Class ;
     skos:example "A natural language sentence that appears in a table caption."@en,
         "A numeric value that appears in a table cell."@en ;
     skos:prefLabel "Text element"@en ;
-    ns1:definition "subClassOf Element" ;
+    ns1:definition "SUBCLASSOF Element" ;
     ns1:label "Text element" .
 
 html:Track a owl:Class ;
@@ -1867,7 +1867,7 @@ html:Track a owl:Class ;
     skos:definition "The <track> HTML element is used as a child of the media elements, <audio> and <video>. It lets you specify timed text tracks (or time-based data), for example to automatically handle subtitles. The tracks are formatted in WebVTT format (.vtt files) — Web Video Text Tracks."@en ;
     skos:prefLabel "track element"@en ;
     html:tag "track" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "track element" .
 
 html:colspan a owl:DatatypeProperty ;
@@ -2219,7 +2219,7 @@ html:Area a owl:Class ;
     skos:definition "The <area> HTML element defines an area inside an image map that has predefined clickable areas. An image map allows geometric areas on an image to be associated with hypertext link."@en ;
     skos:prefLabel "area element"@en ;
     html:tag "area" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "area element" .
 
 html:Body a owl:Class ;
@@ -2228,7 +2228,7 @@ html:Body a owl:Class ;
     skos:definition "The <body> HTML element is the second element in a root html element. It contains the contents of the document."@en ;
     skos:prefLabel "body element"@en ;
     html:tag "body" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "body element" .
 
 html:Caption a owl:Class ;
@@ -2237,7 +2237,7 @@ html:Caption a owl:Class ;
     skos:definition "The caption element represents the title of the table that is its parent, if it has a parent and that is a table element."@en ;
     skos:prefLabel "caption"@en ;
     html:tag "caption" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "caption" .
 
 html:Embed a owl:Class ;
@@ -2246,7 +2246,7 @@ html:Embed a owl:Class ;
     skos:definition "The <embed> HTML element embeds external content at the specified point in the document. This content is provided by an external application or other source of interactive content such as a browser plug-in."@en ;
     skos:prefLabel "embed element"@en ;
     html:tag "embed" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "embed element" .
 
 html:Head a owl:Class ;
@@ -2255,7 +2255,7 @@ html:Head a owl:Class ;
     skos:definition "The <head> HTML element contains machine-readable information (metadata) about the document, like its title, scripts, and style sheets."@en ;
     skos:prefLabel "head element"@en ;
     html:tag "head" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "head element" .
 
 html:Html a owl:Class ;
@@ -2264,7 +2264,7 @@ html:Html a owl:Class ;
     skos:definition "The <html> HTML element represents the root (top-level element) of an HTML document, so it is also referred to as the root element. All other elements must be descendants of this element."@en ;
     skos:prefLabel "html element"@en ;
     html:tag "html" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "html element" .
 
 html:Iframe a owl:Class ;
@@ -2273,7 +2273,7 @@ html:Iframe a owl:Class ;
     skos:definition "The <iframe> HTML element represents a nested browsing context, embedding another HTML page into the current one."@en ;
     skos:prefLabel "iframe element"@en ;
     html:tag "iframe" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "iframe element" .
 
 html:Source a owl:Class ;
@@ -2282,7 +2282,7 @@ html:Source a owl:Class ;
     skos:definition "The <source> HTML element specifies multiple media resources for the <picture>, the <audio> element, or the <video> element. It is an empty element, meaning that it has no content and does not have a closing tag. It is commonly used to offer the same media content in multiple file formats in order to provide compatibility with a broad range of browsers given their differing support for image file formats and media file formats."@en ;
     skos:prefLabel "source element"@en ;
     html:tag "source" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "source element" .
 
 html:TableBody a owl:Class ;
@@ -2291,7 +2291,7 @@ html:TableBody a owl:Class ;
     skos:definition "The table body (<tbody> element) represents a block of rows that consist of a body of data for the parent table."@en ;
     skos:prefLabel "table body"@en ;
     html:tag "tbody" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "table body" .
 
 html:TableHeader a owl:Class ;
@@ -2300,7 +2300,7 @@ html:TableHeader a owl:Class ;
     skos:definition "The table header (<thead> element) represents the block of rows that consist of the column labels (headers) for the parent table."@en ;
     skos:prefLabel "table header"@en ;
     html:tag "thead" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "table header" .
 
 html:Title a owl:Class ;
@@ -2309,7 +2309,7 @@ html:Title a owl:Class ;
     skos:definition "The Title (<title> element) defines a document its title that is shown in a browser title bar or a page tab. It only contains text; tags within the element are ignored."@en ;
     skos:prefLabel "title"@en ;
     html:tag "title" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "title" .
 
 html:Video a owl:Class ;
@@ -2318,7 +2318,7 @@ html:Video a owl:Class ;
     skos:definition "The <video> HTML element embeds a media player which supports video playback into the document. You can use <video> for audio content as well, but the <audio> element may provide a more appropriate user experience."@en ;
     skos:prefLabel "video element"@en ;
     html:tag "video" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "video element" .
 
 section:4.9.8 a dcm:Text ;
@@ -2332,15 +2332,15 @@ html:A a owl:Class ;
     skos:definition "The <a> HTML element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address."@en ;
     skos:prefLabel "a element"@en ;
     html:tag "a" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "a element" .
 
 html:Cell a owl:Class ;
     rdfs:subClassOf html:Element ;
     owl:unionOf ( html:DataCell html:HeaderCell ) ;
     skos:prefLabel "cell"@en ;
-    ns1:definition "data cell or header cell",
-        "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element",
+        "data cell OR header cell" ;
     ns1:label "cell" .
 
 html:DataCell a owl:Class ;
@@ -2349,7 +2349,7 @@ html:DataCell a owl:Class ;
     skos:definition "The data cell (<td> element) represents a cell in a table that contains some unspecified form of data."@en ;
     skos:prefLabel "data cell"@en ;
     html:tag "td" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "data cell" .
 
 html:DataRow a owl:Class ;
@@ -2357,7 +2357,7 @@ html:DataRow a owl:Class ;
     rdfs:subClassOf html:Element ;
     skos:prefLabel "data row"@en ;
     html:tag "tr" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "data row" .
 
 html:HeaderCell a owl:Class ;
@@ -2366,7 +2366,7 @@ html:HeaderCell a owl:Class ;
     skos:definition "The ‘th’ element represents a header cell in a table."@en ;
     skos:prefLabel "header cell"@en ;
     html:tag "th" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "header cell" .
 
 html:HeaderRow a owl:Class ;
@@ -2375,7 +2375,7 @@ html:HeaderRow a owl:Class ;
     skos:definition "The table header row (<tr> element) represents a row of cells in a table header."@en ;
     skos:prefLabel "header row"@en ;
     html:tag "tr" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "header row" .
 
 html:Img a owl:Class ;
@@ -2384,7 +2384,7 @@ html:Img a owl:Class ;
     skos:definition "The <img> HTML element embeds an image into the document."@en ;
     skos:prefLabel "img element"@en ;
     html:tag "img" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "img element" .
 
 html:Link a owl:Class ;
@@ -2393,7 +2393,7 @@ html:Link a owl:Class ;
     skos:definition "The link element allows authors to link their document to other resources."@en ;
     skos:prefLabel "link element"@en ;
     html:tag "link" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "link element" .
 
 html:StyleSheet a owl:Class ;
@@ -2402,7 +2402,7 @@ html:StyleSheet a owl:Class ;
     skos:definition "The <style> HTML element contains style information for a document, or part of a document. It embeds a CSS style sheet, which is applied to the contents of the document containing the <style> element."@en ;
     skos:prefLabel "style sheet"@en ;
     html:tag "style" ;
-    ns1:definition "subClassOf element" ;
+    ns1:definition "SUBCLASSOF element" ;
     ns1:label "style sheet" .
 
 html:Meta a owl:Class ;
@@ -2411,7 +2411,7 @@ html:Meta a owl:Class ;
     skos:definition "The <meta> HTML element can represent document-level metadata with the name attribute, pragma directives with the http-equiv attribute, and the file's character encoding declaration when an HTML document is serialized to string form (e.g. for transmission over the network or for disk storage) with the charset attribute."@en ;
     skos:prefLabel "meta element"@en ;
     html:tag "meta" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "meta element" .
 
 section:4.3.6 a dcm:Text ;
@@ -2425,7 +2425,7 @@ html:Input a owl:Class ;
     skos:definition "The <input> HTML element is used to create interactive controls for web-based forms in order to accept data from the user; a wide variety of types of input data and control widgets are available, depending on the device and user agent. The <input> element is one of the most powerful and complex in all of HTML due to the sheer number of combinations of input types and attributes."@en ;
     skos:prefLabel "input element"@en ;
     html:tag "input" ;
-    ns1:definition "subClassOf Void element" ;
+    ns1:definition "SUBCLASSOF Void element" ;
     ns1:label "input element" .
 
 html:VoidElement a owl:Class ;
@@ -2434,7 +2434,7 @@ html:VoidElement a owl:Class ;
     skos:example "<br>"@en,
         "<hr>"@en ;
     skos:prefLabel "Void element"@en ;
-    ns1:definition "subClassOf Element" ;
+    ns1:definition "SUBCLASSOF Element" ;
     ns1:label "Void element" .
 
 html:attribute a owl:DatatypeProperty ;
@@ -2455,7 +2455,7 @@ html:Element a owl:Class ;
         dom:Element ;
     skos:definition "An element in the DOM represents a thing; that is, it has intrinsic meaning, also known as semantics. An element consists of an HTML start tag and an HTML end tag and has value content. An HTML start tag consists of a ‘smaller than’ character (‘<’) and a tag name, followed by a ‘greater than’ character (‘>’). An HTML end tag consists of a ‘smaller than’ character (‘<’), a slash (‘/’) and a tag name, followed by a ‘greater than’ character (‘>’).  The value content of an element can be arbitrarily complex."@en ;
     skos:prefLabel "element"@en ;
-    ns1:definition "subClassOf Element",
-        "subClassOf prov#Entity" ;
+    ns1:definition "SUBCLASSOF Element",
+        "SUBCLASSOF Entity" ;
     ns1:label "element" .
 
