@@ -42,18 +42,19 @@ Still to be done:
 
 For a good explanation of the vocabulary and the provided tooling in the repository, let's first revisit OWL constructs and the equivalents in Manchester Syntax, according to the standard, taken from [The Manchester OWL Syntax, Horridge et al, 2006](https://ceur-ws.org/Vol-216/submission_9.pdf).
 
-| OWL Constructor     | DL Syntax       | Manchester OWL S. | Example        			 |
+| OWL Constructor     | DL Syntax       | Manchester OWL S. | Example                    |
 |---------------------|-----------------|------------------------------------------------|
-| intersectionOf      | C u D           | C AND D           | Human AND Male        	 |
+| intersectionOf      | C u D           | C AND D           | Human AND Male             |
 | unionOf             | C t D           | C OR D            | Man OR Woman               |
-| complementOf        | ¬ C             | NOT C             | NOT Male             		 |
+| complementOf        | ¬ C             | NOT C             | NOT Male                   |
 | oneOf               | {a} t {b}...    | {a b ...}         | {England Italy Spain}      |
-| someValuesFrom      | ∃ R C           | R SOME C 			| hasColleague SOME Professor|
-| allValuesFrom       | ∀ R C           | R ONLY C 			| hasColleague ONLY Professor|
-| minCardinality      | ≥ N R R         | MIN 3 			| hasColleague MIN 3         |
-| maxCardinality      | ≤ N R R         | MAX 3 			| hasColleague MAX 3         |
-| cardinality         | = N R R         | EXACTLY 3 		| hasColleague EXACTLY 3	 |
-| hasValue            | ∃ R {a}         | R VALUE a 		| hasColleague VALUE Matthe	 |
+| someValuesFrom      | ∃ R C           | R SOME C          | hasColleague SOME Professor|
+| allValuesFrom       | ∀ R C           | R ONLY C          | hasColleague ONLY Professor|
+| minCardinality      | ≥ N R R         | MIN 3             | hasColleague MIN 3         |
+| maxCardinality      | ≤ N R R         | MAX 3             | hasColleague MAX 3         |
+| cardinality         | = N R R         | EXACTLY 3         | hasColleague EXACTLY 3     |
+| hasValue            | ∃ R {a}         | R VALUE a         | hasColleague VALUE Matthe  |
+
 
 
 [insert here RDF triples with manchestersyntax information]

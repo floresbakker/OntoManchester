@@ -957,7 +957,7 @@ construct {
 
 shp:Serializable_datatypeProperty
     a sh:NodeShape;
-    #sh:rule rule:Serialize_datatypeProperty;
+    sh:rule rule:Serialize_datatypeProperty;
     sh:target target:Serialize_datatypeProperty;
     skos:prefLabel 'Serializable owl:DatatypeProperty shape'@en.
 
@@ -974,6 +974,8 @@ select $this {
   # A datatype property with rdfs:domain of a class for which underlying class expressions are already serialized to manchester syntax
   
   $this rdf:type owl:DatatypeProperty.
+  filter not exists {
+  $this manchester:label []}
    
   filter not exists {
     $this rdfs:domain ?someClass.
