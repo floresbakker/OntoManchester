@@ -43,7 +43,7 @@ Still to be done:
 For a good explanation of the vocabulary and the provided tooling in the repository, let's first revisit OWL constructs and the equivalents in Manchester Syntax, according to the standard, taken from [The Manchester OWL Syntax, Horridge et al, 2006](https://ceur-ws.org/Vol-216/submission_9.pdf).
 
 | OWL Constructor     | DL Syntax       | Manchester OWL S. | Example                    |
-|---------------------|-----------------|------------------------------------------------|
+|:-------------------:|:---------------:|:-----------------:|:--------------------------:|
 | intersectionOf      | C u D           | C AND D           | Human AND Male             |
 | unionOf             | C t D           | C OR D            | Man OR Woman               |
 | complementOf        | ¬ C             | NOT C             | NOT Male                   |
