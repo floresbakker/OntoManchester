@@ -1,4 +1,4 @@
-# Manchester Syntax
+# About
 
 A RDF-based vocabulary for Manchester Syntax.
 

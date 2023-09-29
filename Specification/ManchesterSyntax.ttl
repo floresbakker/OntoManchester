@@ -220,7 +220,7 @@ construct {
   {?someProperty manchester:label ?propertyLabel3}
   
   BIND(str(COALESCE(?propertyLabel1, ?propertyLabel2, ?propertyLabel3)) as ?labelProperty)
-  BIND(CONCAT(?labelProperty, " ONLY ", str(?allValuesClassLabel)) as ?manchesterDefinition)
+  BIND(CONCAT(?labelProperty, " only ", str(?allValuesClassLabel)) as ?manchesterDefinition)
   
   # Get the label of the OWL restriction class 
   {$this skos:prefLabel ?thisLabel1}
@@ -293,7 +293,7 @@ construct {
   ?someValuesFromClass manchester:label ?labelClass.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(?labelProperty, " SOME ", str(?labelClass)) as ?manchesterlabel)
+  BIND(CONCAT(?labelProperty, " some ", str(?labelClass)) as ?manchesterlabel)
 
 }  '''.
 
@@ -352,7 +352,7 @@ construct {
   ?valueClass manchester:label ?labelValue.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " VALUE ", str(?labelValue)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " value ", str(?labelValue)) as ?manchesterlabel)
 
 }  '''.
 
@@ -406,7 +406,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " EXACTLY ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " exactly ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -460,7 +460,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " MAX ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " max ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -514,7 +514,7 @@ construct {
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " MIN ", str(?n)) as ?manchesterlabel)
+  BIND(CONCAT(str(?labelProperty), " min ", str(?n)) as ?manchesterlabel)
 
 }  '''.
 
@@ -601,7 +601,7 @@ construct {
   bind(replace(str(?subClassOfClass),'.*[/#]','') as ?definition4)
  }
   # Get the definition of the class to be serialized.
-  BIND(CONCAT("SUBCLASSOF ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+  BIND(CONCAT("SubClassOf ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
@@ -671,7 +671,7 @@ construct {
   UNION 
   {?equivalentClassClass manchester:label ?definition3}
   # Get the label of the class to be serialized.
-  BIND(CONCAT("EQUIVALENTCLASS ", str(COALESCE(?definition1, ?definition2, ?definition3))) as ?manchesterDefinition)
+  BIND(CONCAT("EquivalentTo ", str(COALESCE(?definition1, ?definition2, ?definition3))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
@@ -733,7 +733,7 @@ construct {
         manchester:definition ?manchesterDefinition. 
 } where {
 
-  {select (group_concat(?label0;separator=' OR ') as ?manchesterDefinition) where {
+  {select (group_concat(?label0;separator=' or ') as ?manchesterDefinition) where {
   $this owl:unionOf/rdf:rest*/rdf:first/manchester:label ?label0.
   }
 }
@@ -796,7 +796,7 @@ construct {
         manchester:definition ?manchesterDefinition. 
 } where {
 
-  {select (group_concat(?label0;separator=' AND ') as ?manchesterDefinition) where {
+  {select (group_concat(?label0;separator=' and ') as ?manchesterDefinition) where {
   $this owl:intersectionOf/rdf:rest*/rdf:first/manchester:label ?label0.
   
 }
@@ -942,7 +942,7 @@ construct {
   bind(replace(str(?complementOfClass),'.*[/#]','') as ?definition4)
   }
   # Get the label of the class to be serialized.
-  BIND(CONCAT("NOT ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+  BIND(CONCAT("not ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
