@@ -1004,7 +1004,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:label ?manchesterLabel;
-        manchester:definition ?manchesterDefinition. 
+        manchester:domain ?manchesterDomain. 
 } where {
 
   $this rdfs:domain ?domainClass.
@@ -1023,7 +1023,7 @@ construct {
   bind(replace(str(?domainClass),'.*[/#]','') as ?definition4)
   }
   # Get the label of the domain class to be serialized.
-  BIND(CONCAT("Domain:  ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+  BIND(CONCAT("Domain:  ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDomain)
 
   {$this skos:prefLabel ?label1}
   UNION 
