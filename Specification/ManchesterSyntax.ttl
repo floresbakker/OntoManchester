@@ -145,7 +145,7 @@ construct {
 	# We use an heuristic based on the last part of the IRI to determine the manchester-syntax
     bind(replace(str($this),'.*[/#]','') as ?label3)
  }
-  BIND(COALESCE(?label, ?label2, ?label3) as ?manchesterLabel)
+  BIND(STR(COALESCE(?label, ?label2, ?label3)) as ?manchesterLabel)
 } 
 '''.
 
@@ -539,6 +539,10 @@ select $this {
   {$this rdfs:subClassOf [].
    
   filter not exists {
+    $this manchester:label []
+  }
+  
+  filter not exists {
     $this rdfs:subClassOf ?subClassOfClass
 	filter not exists {
 	?subClassOfClass manchester:label []
@@ -590,7 +594,7 @@ construct {
   UNION 
   {?subClassOfClass rdfs:label ?definition2}
   UNION 
-  {?subClassOfClass manchester:label ?definition3}
+  {?subClassOfClass manchester:label ?derivedDefinition}
   UNION { # There may be superclasses that unfortunately do not get defined in the turtle file. 
   $this rdfs:subClassOf ?subClassOfClass
   filter not exists {  ?subClassOfClass rdfs:label []. }
@@ -598,10 +602,12 @@ construct {
   filter not exists {  ?subClassOfClass manchester:label []. }
 
   # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
-  bind(replace(str(?subClassOfClass),'.*[/#]','') as ?definition4)
+  bind(replace(str(?subClassOfClass),'.*[/#]','') as ?implicitDefinition)
  }
+  BIND(CONCAT("[=",COALESCE(?definition1, ?definition2),"=]") as ?explicitDefinition)
+  
   # Get the definition of the class to be serialized.
-  BIND(CONCAT("SubClassOf ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDefinition)
+  BIND(CONCAT("SubClassOf ", str(COALESCE(?explicitDefinition, ?derivedDefinition, ?implicitDefinition))) as ?manchesterDefinition)
 
   {$this skos:prefLabel ?label1}
   UNION 
