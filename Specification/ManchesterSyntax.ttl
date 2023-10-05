@@ -1010,15 +1010,17 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:label ?manchesterLabel;
-        manchester:domain ?manchesterDomain. 
+        manchester:domain ?manchesterDomain;
+        manchester:range ?manchesterRange.		
 } where {
 
-  $this rdfs:domain ?domainClass.
+  # Domain
+  {$this rdfs:domain ?domainClass.
   {?domainClass skos:prefLabel ?definition1}
   UNION 
   {?domainClass rdfs:label ?definition2}
   UNION 
-  {?domainClass manchester:label ?definition3}
+  {?domainClass manchester:label ?derivedDefinition}
   UNION { # There may be classes that unfortunately do not get defined in the turtle file. 
   $this rdfs:domain ?domainClass.
   filter not exists {  ?domainClass rdfs:label []. }
@@ -1026,18 +1028,50 @@ construct {
   filter not exists {  ?domainClass manchester:label []. }
   
   # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
-  bind(replace(str(?domainClass),'.*[/#]','') as ?definition4)
+  bind(replace(str(?domainClass),'.*[/#]','') as ?implicitDefinition)
   }
-  # Get the label of the domain class to be serialized.
-  BIND(CONCAT("Domain:  ", str(COALESCE(?definition1, ?definition2, ?definition3, ?definition4))) as ?manchesterDomain)
-
+  
+  BIND(CONCAT("[=",COALESCE(?definition1, ?definition2),"=]") as ?explicitDefinition)
+  
+  # Get the domain of the datatype property to be serialized.
+  BIND(CONCAT("Domain:  ", str(COALESCE(?explicitDefinition, ?derivedDefinition, ?implicitDefinition))) as ?manchesterDomain)
+  }
+  
+  # Range 
+  UNION
+  {$this rdfs:range ?rangeClass.
+  {?rangeClass skos:prefLabel ?rangeDefinition1}
+  UNION 
+  {?rangeClass rdfs:label ?rangeDefinition2}
+  UNION 
+  {?rangeClass manchester:label ?rangeDerivedDefinition}
+  UNION { # There may be classes that unfortunately do not get defined in the turtle file. 
+  $this rdfs:range ?rangeClass.
+  filter not exists {  ?rangeClass rdfs:label []. }
+  filter not exists {  ?rangeClass skos:prefLabel []. }
+  filter not exists {  ?rangeClass manchester:label []. }
+  
+  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
+  bind(replace(str(?rangeClass),'.*[/#]','') as ?rangeImplicitDefinition)
+  }
+  
+  BIND(CONCAT("[=",COALESCE(?rangeDefinition1, ?rangeDefinition2),"=]") as ?rangeExplicitDefinition)
+  
+  # Get the range of the datatype property to be serialized.
+  BIND(CONCAT("Range:  ", str(COALESCE(?rangeExplicitDefinition, ?rangeDerivedDefinition, ?rangeImplicitDefinition))) as ?manchesterRange)
+  }
+  
+  # Label
   {$this skos:prefLabel ?label1}
   UNION 
   {$this rdfs:label ?label2}
   UNION 
-  {$this manchester:label ?label3}
+  {$this manchester:label ?derivedLabel}
+  
+  BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
+  
   # Get the label of the datatype property to be serialized.
-  BIND(CONCAT("Property name:  ",str(COALESCE(?label1, ?label2, ?label3))) as ?manchesterLabel)
+  BIND(CONCAT("Property name:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ?manchesterLabel)
 
 } 
 '''.
