@@ -15,6 +15,7 @@ prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 
 prefix documentType: <https://data.rijksfinancien.nl/dom/model/id/documentType/>
 prefix dom: <https://data.rijksfinancien.nl/dom/model/def/>
+prefix function: <https://data.rijksfinancien.nl/html/model/function/>
 prefix graph: <https://data.rijksfinancien.nl/html/graph/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix rule: <https://data.rijksfinancien.nl/html/model/rule/>
@@ -977,7 +978,7 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 select $this {
 
-  # A datatype property with rdfs:domain of a class for which underlying class expressions are already serialized to manchester syntax
+  # A datatype property for which underlying class expressions are already serialized to manchester syntax, but which does not have subPropertyOf or equivalentProperty relations.
   
   $this rdf:type owl:DatatypeProperty.
   filter not exists {
@@ -986,9 +987,17 @@ select $this {
   filter not exists {
     $this rdfs:domain ?someClass.
 	filter not exists {
-	?someClass manchester:label []
+	  ?someClass manchester:label []
     }
   }
+
+  filter not exists {
+    $this rdfs:subPropertyOf []
+    }
+  
+  filter not exists {
+    $this owl:equivalentProperty []
+    }
  }
   '''.
 
@@ -998,6 +1007,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for the rdfs:domain of an owl:DatatypeProperty.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty.'@en;
     sh:construct '''
+prefix function: <https://data.rijksfinancien.nl/html/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -1007,71 +1017,294 @@ prefix skos: <http://www.w3.org/2004/02/skos/core#>
 
 construct {
 
-  # create the manchester syntax for the OWL class to be serialized.
+  # create the manchester syntax for the OWL property to be serialized.
   
   $this manchester:label ?manchesterLabel;
+        manchester:datatypeProperty ?manchesterDatatypeProperty;
         manchester:domain ?manchesterDomain;
-        manchester:range ?manchesterRange.		
+        manchester:range ?manchesterRange;
+        manchester:subPropertyOf ?manchesterSuperProperty.		
 } where {
 
-  # Domain
-  {$this rdfs:domain ?domainClass.
-  {?domainClass skos:prefLabel ?definition1}
-  UNION 
-  {?domainClass rdfs:label ?definition2}
-  UNION 
-  {?domainClass manchester:label ?derivedDefinition}
-  UNION { # There may be classes that unfortunately do not get defined in the turtle file. 
-  $this rdfs:domain ?domainClass.
-  filter not exists {  ?domainClass rdfs:label []. }
-  filter not exists {  ?domainClass skos:prefLabel []. }
-  filter not exists {  ?domainClass manchester:label []. }
-  
-  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
-  bind(replace(str(?domainClass),'.*[/#]','') as ?implicitDefinition)
-  }
-  
-  BIND(CONCAT("[=",COALESCE(?definition1, ?definition2),"=]") as ?explicitDefinition)
-  
-  # Get the domain of the datatype property to be serialized.
-  BIND(CONCAT("Domain:  ", str(COALESCE(?explicitDefinition, ?derivedDefinition, ?implicitDefinition))) as ?manchesterDomain)
-  }
-  
-  # Range 
-  UNION
-  {$this rdfs:range ?rangeClass.
-  {?rangeClass skos:prefLabel ?rangeDefinition1}
-  UNION 
-  {?rangeClass rdfs:label ?rangeDefinition2}
-  UNION 
-  {?rangeClass manchester:label ?rangeDerivedDefinition}
-  UNION { # There may be classes that unfortunately do not get defined in the turtle file. 
-  $this rdfs:range ?rangeClass.
-  filter not exists {  ?rangeClass rdfs:label []. }
-  filter not exists {  ?rangeClass skos:prefLabel []. }
-  filter not exists {  ?rangeClass manchester:label []. }
-  
-  # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
-  bind(replace(str(?rangeClass),'.*[/#]','') as ?rangeImplicitDefinition)
-  }
-  
-  BIND(CONCAT("[=",COALESCE(?rangeDefinition1, ?rangeDefinition2),"=]") as ?rangeExplicitDefinition)
-  
-  # Get the range of the datatype property to be serialized.
-  BIND(CONCAT("Range:  ", str(COALESCE(?rangeExplicitDefinition, ?rangeDerivedDefinition, ?rangeImplicitDefinition))) as ?manchesterRange)
-  }
-  
+
   # Label
+  {
   {$this skos:prefLabel ?label1}
   UNION 
   {$this rdfs:label ?label2}
   UNION 
   {$this manchester:label ?derivedLabel}
   
+  BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
   BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
   
   # Get the label of the datatype property to be serialized.
-  BIND(CONCAT("Property name:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ?manchesterLabel)
-
-} 
+  BIND(CONCAT("Property name:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ?manchesterDatatypeProperty)
+  
+  }
+  
+  # Domain
+  UNION
+  {$this rdfs:domain ?domainClass.
+  ?domainClass manchester:label ?domain.
+  BIND(CONCAT("[=",?domain,"=]") as ?domainDefinition)
+  BIND(CONCAT("Domain:  ", ?domainDefinition) as ?manchesterDomain)
+  }
+  
+  # Range 
+  UNION
+  {$this rdfs:range ?rangeDatatype.
+#  ?rangeDatatype manchester:label ?range.
+  BIND(CONCAT("Range:  ", function:getPrefixedIRI(?rangeDatatype)) as ?manchesterRange)
+  }
+}  
 '''.
+
+shp:Serializable_subPropertyOf
+    a sh:NodeShape;
+    sh:rule rule:Serialize_subPropertyOf;
+    sh:target target:Serialize_subPropertyOf;
+    skos:prefLabel 'Serializable owl:DatatypeProperty shape with a rdfs:subPropertyOf relation.'@en.
+
+  target:Serialize_subPropertyOf
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select $this {
+
+  # A datatype property for which underlying class expressions are already serialized to manchester syntax, together with a subPropertyOf relation.
+  
+  $this rdf:type owl:DatatypeProperty;
+        rdfs:subPropertyOf ?someProperty.
+  filter not exists {
+  $this manchester:label []}
+   
+  filter not exists {
+    $this rdfs:domain ?someClass.
+	filter not exists {
+	?someClass manchester:label []
+    }
+  }
+
+  filter not exists {
+    $this rdfs:subPropertyOf ?someProperty.
+	filter not exists {
+	?someProperty manchester:label []
+    }
+	}
+ }
+'''.
+
+  rule:Serialize_subPropertyOf
+    a sh:SPARQLRule;
+    rdfs:comment 'A rule that creates a manchester syntax for an owl:DatatypeProperty with a subPropertyOf relation.'@en;
+    skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty with a subPropertyOf relation.'@en;
+    sh:construct '''
+prefix function: <https://data.rijksfinancien.nl/html/model/function/>
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+construct {
+
+  # create the manchester syntax for the OWL property to be serialized.
+  
+  $this manchester:label ?manchesterLabel;
+        manchester:datatypeProperty ?manchesterDatatypeProperty;
+        manchester:domain ?manchesterDomain;
+        manchester:range ?manchesterRange;
+        manchester:subPropertyOf ?manchesterSuperProperty.		
+} where {
+
+  # Label
+  {
+  {$this skos:prefLabel ?label1}
+  UNION 
+  {$this rdfs:label ?label2}
+  UNION 
+  {$this manchester:label ?derivedLabel}
+  
+  BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
+  
+  # Get the label of the datatype property to be serialized.
+  BIND(CONCAT("Property name:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ?manchesterDatatypeProperty)
+  }
+  
+  # Domain
+  UNION
+  {$this rdfs:domain ?domainClass.
+  ?domainClass manchester:label ?domain.
+  BIND(CONCAT("[=",?domain,"=]") as ?domainDefinition)
+  BIND(CONCAT("Domain:  ", ?domainDefinition) as ?manchesterDomain)
+  }
+  
+  # Range 
+  UNION
+  {$this rdfs:range ?rangeDatatype.
+#  ?rangeDatatype manchester:label ?range.
+  BIND(CONCAT("Range:  ", function:getPrefixedIRI(?rangeDatatype)) as ?manchesterRange)
+  }
+
+  # subPropertyOf
+  UNION 
+  {$this rdfs:subPropertyOf ?superProperty.
+  ?superProperty manchester:label ?superPropertyDefinition.
+  BIND(CONCAT("[=",?superPropertyDefinition,"=]") as ?superPropertyLabel)
+  BIND(CONCAT("SubPropertyOf:  ", ?superPropertyLabel) as ?manchesterSuperProperty)
+  }
+}  
+'''.
+
+shp:Serializable_equivalentProperty
+    a sh:NodeShape;
+    sh:rule rule:Serialize_equivalentProperty;
+    sh:target target:Serialize_equivalentProperty;
+    skos:prefLabel 'Serializable owl:DatatypeProperty shape with a owl:equivalentProperty relation.'@en.
+
+  target:Serialize_equivalentProperty
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select $this {
+
+  # A datatype property for which underlying class expressions are already serialized to manchester syntax, together with a equivalentProperty relation.
+  
+  $this rdf:type owl:DatatypeProperty;
+        owl:equivalentProperty ?someProperty.
+  filter not exists {
+  $this manchester:label []}
+   
+  filter not exists {
+    $this rdfs:domain ?someClass.
+	filter not exists {
+	?someClass manchester:label []
+    }
+  }
+
+  filter not exists {
+    $this owl:equivalentProperty ?someProperty.
+	filter not exists {
+	?someProperty manchester:label []
+    }
+	}
+ }
+'''.
+
+  rule:Serialize_equivalentProperty
+    a sh:SPARQLRule;
+    rdfs:comment 'A rule that creates a manchester syntax for an owl:DatatypeProperty with an equivalentProperty relation.'@en;
+    skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty with an equivalentProperty relation.'@en;
+    sh:construct '''
+prefix function: <https://data.rijksfinancien.nl/html/model/function/>
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix xsd: <http://www.w3.org/2001/XMLSchema#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+construct {
+
+  # create the manchester syntax for the OWL property to be serialized.
+  
+  $this manchester:label ?manchesterLabel;
+        manchester:datatypeProperty ?manchesterDatatypeProperty;
+        manchester:domain ?manchesterDomain;
+        manchester:range ?manchesterRange;
+        manchester:equivalentProperty ?manchesterEquivalentProperty.		
+} where {
+
+  # Label
+  {
+  {$this skos:prefLabel ?label1}
+  UNION 
+  {$this rdfs:label ?label2}
+  UNION 
+  {$this manchester:label ?derivedLabel}
+  
+  BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
+  
+  # Get the label of the datatype property to be serialized.
+  BIND(CONCAT("Property name:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ??manchesterDatatypeProperty)
+  }
+  
+  # Domain
+  UNION
+  {$this rdfs:domain ?domainClass.
+  ?domainClass manchester:label ?domain.
+  BIND(CONCAT("[=",?domain,"=]") as ?domainDefinition)
+  BIND(CONCAT("Domain:  ", ?domainDefinition) as ?manchesterDomain)
+  }
+  
+  # Range 
+  UNION
+  {$this rdfs:range ?rangeDatatype.
+#  ?rangeDatatype manchester:label ?range.
+  BIND(CONCAT("Range:  ", function:getPrefixedIRI(?rangeDatatype)) as ?manchesterRange)
+  }
+
+  # equivalentProperty
+  UNION 
+  {$this owl:equivalentProperty ?equivalentProperty.
+  ?equivalentProperty manchester:label ?equivalentPropertyDefinition.
+  BIND(CONCAT("[=",?equivalentPropertyDefinition,"=]") as ?equivalentPropertyLabel)
+  BIND(CONCAT("equivalentProperty:  ", ?equivalentPropertyLabel) as ?manchesterEquivalentProperty)
+  }
+}  
+'''.
+
+function:getPrefixedIRI
+    a sh:SPARQLFunction ;
+    rdfs:comment "Gets prefixed IRI from full IRI." ;
+    sh:parameter [
+        sh:path function:IRI ;
+        sh:datatype xsd:anyURI ;
+        sh:description "The full IRI of a RDF resource as defined in an ontology." ;
+    ] ;
+    sh:returnType xsd:string ;
+    sh:select """
+       SELECT ?result WHERE {
+{
+    VALUES (?ontology ?IRI_base ?IRI_prefix) {
+      (dcm: "http://purl.org/dc/dcmitype/" "dcm")
+      (dct: "http://purl.org/dc/terms/" "dct")
+      (foaf: "http://xmlns.com/foaf/0.1/" "foaf")
+      (owl: "http://www.w3.org/2002/07/owl#" "owl")
+      (prov: "http://www.w3.org/ns/prov#" "prov")
+      (rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#" "rdf")
+      (rdfa: "http://www.w3.org/ns/rdfa#" "rdfa")
+      (rdfs: "http://www.w3.org/2000/01/rdf-schema#" "rdfs")
+      (sh: "http://www.w3.org/ns/shacl#" "sh")
+      (skos: "http://www.w3.org/2004/02/skos/core#" "skos")
+      (status: "http://purl.org/adms/status/" "status")
+      (vann: "http://purl.org/vocab/vann/" "vann")
+      (void: "http://rdfs.org/ns/void#" "void")
+      (xsd: "http://www.w3.org/2001/XMLSchema#" "xsd")
+    }
+  }
+  UNION 
+  {
+    ?ontology vann:preferredNamespaceUri ?IRI_base;
+              vann:preferredNamespacePrefix ?IRI_prefix.
+  }
+  FILTER (STRSTARTS(STR($IRI), ?IRI_base))
+  BIND(STR($IRI) as ?IRI_href)
+  BIND(STRAFTER(STR($IRI), ?IRI_base) as ?IRI_reference)
+  BIND(COALESCE(CONCAT(STR(?IRI_prefix),":",?IRI_reference), ?IRI_href) as ?result)
+}
+        """ .
+		
+
