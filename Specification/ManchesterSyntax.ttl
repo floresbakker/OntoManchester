@@ -1266,6 +1266,108 @@ construct {
 }  
 '''.
 
+shp:Serializable_namedIndividual
+    a sh:NodeShape;
+    sh:rule rule:Serialize_namedIndividual;
+    sh:target target:Serialize_namedIndividual;
+    skos:prefLabel 'Serializable Named Individual shape.'@en.
+
+target:Serialize_namedIndividual
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+select $this {
+
+  # A named individual for which underlying class expressions are already serialized to manchester syntax.
+  
+  $this rdf:type ?class.   
+  filter not exists {
+    $this manchester:label []
+  }  
+ 
+  filter not exists {
+    $this rdf:type ?class. 
+    filter not exists {
+     ?class manchester:label []
+    }
+  }
+}
+'''.
+
+rule:Serialize_namedIndividual
+  a sh:SPARQLRule;
+  skos:prefLabel 'Named individuals rule'@en;
+  rdfs:comment 'The named individuals rule creates a section of named individuals for the ontology in the document.'@en ;
+  sh:construct """
+prefix dct: <http://purl.org/dc/terms/>
+prefix dc:  <http://purl.org/dc/elements/1.1/>
+prefix dom: <https://data.rijksfinancien.nl/dom/model/def/>
+prefix function: <https://data.rijksfinancien.nl/html/model/function/>
+prefix html: <https://data.rijksfinancien.nl/html/model/def/> 
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+prefix respec: <https://respec.org/model/> 
+prefix schema: <http://schema.org/>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+prefix vann: <http://purl.org/vocab/vann/>
+
+construct {
+
+  # create the manchester syntax for the named individual to be serialized.
+  
+  $this manchester:label ?manchesterLabel;
+        manchester:type ?manchesterType;
+        manchester:fact ?manchesterFact.
+      
+} where {
+
+  # Label
+  {
+  {$this skos:prefLabel ?label1}
+  UNION 
+  {$this rdfs:label ?label2}
+  UNION 
+  {$this manchester:label ?derivedLabel}
+  
+  BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
+  
+  # Get the label of the named individual to be serialized.
+  BIND(CONCAT("Name of individual:  ", str(COALESCE(?explicitLabel, ?derivedLabel))) as ?manchesterLabel)
+  }
+  
+  # Type
+  UNION
+  {$this a ?class.
+  ?class manchester:label ?className.
+  BIND(CONCAT("[=",?className,"=]") as ?typeDefinition)
+  BIND(CONCAT("Type:  ", ?typeDefinition) as ?manchesterType)
+  }
+  
+  # Fact 
+  UNION
+  {$this ?property ?literal.
+  ?property rdf:type owl:DatatypeProperty; 
+            manchester:label ?propertyLabel.
+  }
+  UNION
+  {$this ?property ?object.
+  ?property rdf:type owl:ObjectProperty; 
+            manchester:label ?propertyLabel.
+  ?object   manchester:label ?objectLabel.}
+  
+  BIND(CONCAT("Fact:  ", function:getPrefixedIRI(?propertyLabel), " ", COALESCE(str(?literal), ?objectLabel)) as ?manchesterFact)
+
+  }
+  
+""".
+
 function:getPrefixedIRI
     a sh:SPARQLFunction ;
     rdfs:comment "Gets prefixed IRI from full IRI." ;
