@@ -19,9 +19,13 @@ Usage:
 import os
 import pyshacl
 import rdflib 
+from rdflib import Namespace
 
 # Set the path to the desired standard directory. 
 directory_path = "C:/Users/Administrator/Documents/Branches/"
+
+# namespace declaration
+manchester = Namespace("https://data.rijksfinancien.nl/manchester/model/def/")
 
 # Function to read a graph (as a string) from a file 
 def readGraphFromFile(file_path):
@@ -69,11 +73,13 @@ manchester_generator = readGraphFromFile("C:/Users/Administrator/Documents/Branc
 # Get some ontology to be transformed from OWL to Manchester Syntax. The ontology needs to be placed in the input directory.
 ontology_graph = readGraphFromFile(file_path)   
 
+
 # Join the manchester syntax and the ontology to be transformed into one big string.
 serializable_graph_string = ontology_graph
 
 # Create a graph of the string consisting of the manchester syntax and the ontology to be transformed 
 serializable_graph = rdflib.Graph().parse(data=serializable_graph_string , format="ttl")
+serializable_graph.bind("manchester", manchester)
 
 # Inform user
 print ('Creating Manchester Syntax labels and definitions...')
@@ -82,4 +88,4 @@ print ('Creating Manchester Syntax labels and definitions...')
 iteratePyShacl(manchester_generator, serializable_graph)
 
 # Inform user
-print ('Manchester Syntax labels and definitions created and added to the ontology.')
+print ('Done.')
