@@ -793,6 +793,7 @@ construct {
   
   $this  manchester:frame 'class';
          manchester:disjunction ?manchesterLabel;
+		 manchester:label ?manchesterLabel;
          manchester:equivalentTo ?manchesterLabel.
         
 } where {
@@ -855,6 +856,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:frame 'class'; 
+        manchester:label ?manchesterLabel;
         manchester:equivalentTo ?manchesterLabel;
         manchester:conjunction ?manchesterLabel.
         
@@ -917,6 +919,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:frame 'class';
+        manchester:label ?manchesterLabel;
         manchester:atomicList ?manchesterLabel;
 		manchester:equivalentTo ?manchesterLabel.
   
@@ -982,6 +985,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:frame 'class';
+        manchester:label ?manchesterLabel;
         manchester:equivalentTo ?manchesterLabel;
         manchester:not ?manchesterLabel.
        
@@ -1077,9 +1081,14 @@ construct {
   # Domain
   UNION
   {$this rdfs:domain ?domainClass.
-  ?domainClass manchester:label ?manchesterDomain.
+  OPTIONAL {
+  ?domainClass manchester:label ?manchesterDomain1.}
+  OPTIONAL
+  {?domainClass manchester:equivalentTo ?manchesterDomain2.}
+  OPTIONAL
+  {?domainClass manchester:subClassOf ?manchesterDomain3.}
+  BIND(COALESCE(?manchesterDomain1, ?manchesterDomain2, ?manchesterDomain3) as ?manchesterDomain)
   }
-  
   # Range 
   UNION
   {$this rdfs:range ?rangeDatatype.
