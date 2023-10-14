@@ -1077,15 +1077,17 @@ construct {
 
 
   # Label
-  {
-  {$this skos:prefLabel ?label1}
-  UNION 
-  {$this rdfs:label ?label2}
-  UNION 
-  {$this manchester:label ?derivedLabel}
   
-  BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
-
+  {
+  {$this skos:prefLabel ?preferredLabel}
+  UNION 
+  {$this rdfs:label ?alternativeLabel}
+    
+  # Get the label of the OWL class to be serialized when there is no formal label
+  bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
+  
+  # Establish the label of the property to be serialized.
+  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel),"=]") as ?manchesterLabel)
   }
   
   # Domain
@@ -1275,6 +1277,7 @@ construct {
   # create the manchester syntax for the named individual to be serialized.
   $this manchester:frame 'individual';
         manchester:individual ?manchesterLabel;
+		manchester:label ?manchesterLabel;
         manchester:type ?manchesterType;
         manchester:fact ?manchesterFact.
 } where {
