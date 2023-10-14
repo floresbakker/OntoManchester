@@ -792,17 +792,29 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this  manchester:frame 'class';
-         manchester:disjunction ?manchesterLabel;
-		 manchester:label ?manchesterLabel;
-         manchester:equivalentTo ?manchesterLabel.
+         manchester:label ?manchesterLabel;
+         manchester:disjunction ?manchesterDefinition;
+         manchester:equivalentTo ?manchesterDefinition.
         
 } where {
 
-  {select (group_concat(?label;separator=' or ') as ?manchesterLabel) where {
+  {select (group_concat(?label;separator=' or ') as ?manchesterDefinition) where {
   $this owl:unionOf/rdf:rest*/rdf:first/manchester:label ?label.
   }
   }
-
+  UNION
+  {
+    $this skos:prefLabel ?preferredLabel
+  }
+  UNION 
+  {
+    $this rdfs:label ?alternativeLabel
+  }
+  BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  
+  # Get the label of the class to be serialized.   
+  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  
 }
 '''.
 
@@ -833,7 +845,7 @@ select $this {
   filter not exists {
     $this owl:intersectionOf/rdf:rest*/rdf:first ?someClass.
     filter not exists {
-     ?someClass manchester:label []
+     ?someClass manchester:frame 'class'.
     }
   }
  }
@@ -856,7 +868,6 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:frame 'class'; 
-        manchester:label ?manchesterLabel;
         manchester:equivalentTo ?manchesterLabel;
         manchester:conjunction ?manchesterLabel.
         
@@ -1074,21 +1085,14 @@ construct {
   {$this manchester:label ?derivedLabel}
   
   BIND(COALESCE(?label1, ?label2) as ?manchesterLabel)
-  #BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
 
   }
   
   # Domain
   UNION
   {$this rdfs:domain ?domainClass.
-  OPTIONAL {
-  ?domainClass manchester:label ?manchesterDomain1.}
-  OPTIONAL
-  {?domainClass manchester:equivalentTo ?manchesterDomain2.}
-  OPTIONAL
-  {?domainClass manchester:subClassOf ?manchesterDomain3.}
-  BIND(COALESCE(?manchesterDomain1, ?manchesterDomain2, ?manchesterDomain3) as ?manchesterDomain)
-  }
+  ?domainClass manchester:label ?manchesterDomain.}
+  
   # Range 
   UNION
   {$this rdfs:range ?rangeDatatype.
