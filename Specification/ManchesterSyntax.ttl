@@ -641,10 +641,11 @@ construct {
   }
   # Get the definition of the class to be serialized.
   BIND(CONCAT(STR(COALESCE(?explicitDefinition, ?implicitDefinition))) as ?manchesterDefinition)
+  OPTIONAL
   {
     $this skos:prefLabel ?preferredLabel
   }
-  UNION 
+  OPTIONAL
   {
     $this rdfs:label ?alternativeLabel
   }
@@ -802,16 +803,17 @@ construct {
   $this owl:unionOf/rdf:rest*/rdf:first/manchester:label ?label.
   }
   }
-  UNION
+  OPTIONAL
   {
-    $this skos:prefLabel ?preferredLabel
+    $this skos:prefLabel ?prefLabel
   }
-  UNION 
+  OPTIONAL 
   {
-    $this rdfs:label ?alternativeLabel
+    $this rdfs:label ?altLabel
   }
   BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
-  
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
   # Get the label of the class to be serialized.   
   BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
   
