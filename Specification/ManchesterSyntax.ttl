@@ -129,7 +129,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
+  $this manchester:syntax 'CLASS';
         manchester:label ?manchesterLabel.
 } where {
 
@@ -169,7 +169,7 @@ select $this {
         owl:allValuesFrom [].
 
   filter not exists {
-    $this manchester:propertyExpressionOnly []
+    $this manchester:syntax "ONLY"
    }
    
   filter not exists {
@@ -205,21 +205,34 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionOnly ?manchesterLabel;
+  $this manchester:syntax "ONLY";
         manchester:label ?manchesterLabel.
 } where {
 
   $this owl:allValuesFrom ?allValuesFromClass;
         owl:onProperty ?someProperty.
   
-  # Get the label of allValuesFromClass
+  # Get the labels for the class and property
   ?allValuesFromClass manchester:label ?classLabel.
-      
   ?someProperty manchester:label ?propertyLabel
-    
-  # Establish the label of the OWL restriction class to be serialized.
-  BIND(CONCAT(?propertyLabel, " only ", str(?classLabel)) as ?manchesterLabel)
+  
+  # Establish the full label of the OWL restriction class to be serialized.
+  BIND(CONCAT(?propertyLabel, " only ", str(?classLabel)) as ?manchesterDefinition)
+  
+  # Establish whether the restriction class has a label of its own or not. Use when present, otherwise use the manchester definition.
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel
+  }
+  BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Get the label of the class to be serialized.   
+  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
   
 }
 '''.
@@ -247,7 +260,7 @@ select $this {
         owl:someValuesFrom [].
 		
   filter not exists {
-    $this manchester:propertyExpressionSome [] 
+    $this manchester:syntax 'SOME'
 	}
    
   filter not exists {
@@ -281,8 +294,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionSome ?manchesterLabel;
+  $this manchester:syntax 'SOME';
         manchester:label ?manchesterlabel.
 		
 } where {
@@ -320,13 +332,13 @@ select $this {
         owl:hasValue [].
 
   filter not exists {
-   $this manchester:propertyExpressionValue []
+   $this manchester:syntax 'VALUE'
   }
    
   filter not exists {
     $this owl:hasValue ?value.
     filter not exists {
-     ?value manchester:frame 'individual'.
+     ?value manchester:syntax 'individual'.
     }
   }
  }
@@ -347,8 +359,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionValue ?manchesterLabel;
+  $this manchester:syntax 'VALUE';
         manchester:label ?manchesterlabel.
         
 } where {
@@ -385,7 +396,7 @@ select $this {
 		owl:onProperty ?someProperty.
    
   filter not exists {
-     $this manchester:propertyExpressionExact []
+     $this manchester:syntax 'EXACT'
   }
 
   filter not exists {
@@ -412,8 +423,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionExact ?manchesterLabel;
+  $this manchester:syntax 'EXACT';
         manchester:equivalentTo ?manchesterLabel.
   
 } where {
@@ -449,7 +459,7 @@ select $this {
 		owl:onProperty ?someProperty.
    
   filter not exists {
-    $this manchester:propertyExpressionMax []
+    $this manchester:syntax 'MAX'
   }
 
   filter not exists {
@@ -476,8 +486,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionMax ?manchesterLabel;
+  $this manchester:syntax 'MAX';
         manchester:label ?manchesterLabel.
   
 } where {
@@ -512,7 +521,7 @@ select $this {
         owl:minCardinality [].
    
   filter not exists {
-    $this manchester:propertyExpressionMin []
+    $this manchester:syntax 'MIN'
   }
 
   filter not exists {
@@ -539,8 +548,7 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
-        manchester:propertyExpressionMin ?manchesterLabel;
+  $this manchester:syntax 'MIN';
         manchester:label ?manchesterLabel.
   
 } where {
@@ -574,7 +582,7 @@ select $this {
   {$this rdfs:subClassOf [].
    
    filter not exists {
-    $this manchester:subClassOf []
+    $this manchester:syntax 'SUBCLASSOF'
    }
   
    filter not exists {
@@ -614,11 +622,14 @@ prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix xsd: <http://www.w3.org/2001/XMLSchema#>
 prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
 construct {
+
   # create the manchester syntax for the class to be serialized.
-  $this manchester:frame 'class';
-    manchester:subClassOf ?manchesterDefinition;
-    manchester:label ?manchesterLabel.
+  $this manchester:syntax 'SUBCLASSOF';
+        manchester:subClassOf ?manchesterDefinition;
+        manchester:label ?manchesterLabel.
+
 } where {
   {
     $this rdfs:subClassOf ?superClass.
@@ -641,6 +652,7 @@ construct {
   }
   # Get the definition of the class to be serialized.
   BIND(CONCAT(STR(COALESCE(?explicitDefinition, ?implicitDefinition))) as ?manchesterDefinition)
+  
   OPTIONAL
   {
     $this skos:prefLabel ?preferredLabel
@@ -677,7 +689,7 @@ select $this {
   {$this owl:equivalentClass [].
   
   filter not exists {
-    $this manchester:equivalentTo []
+    $this manchester:syntax 'EQUIVALENTTO'
    }
   
   filter not exists {
@@ -721,7 +733,7 @@ construct {
 
   # create the manchester syntax for the class to be serialized.
   
-  $this manchester:frame 'class';
+  $this manchester:syntax 'EQUIVALENTTO';
         manchester:label ?manchesterLabel;
         manchester:equivalentTo ?manchesterDefinition. 
 } where {
@@ -764,7 +776,7 @@ select $this {
   $this owl:unionOf [].
   
   filter not exists {
-    $this manchester:disjunction []
+    $this manchester:syntax "OR"
    }
    
   filter not exists {
@@ -792,9 +804,8 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this  manchester:frame 'class';
+  $this  manchester:syntax "OR";
          manchester:label ?manchesterLabel;
-         manchester:disjunction ?manchesterDefinition;
          manchester:equivalentTo ?manchesterDefinition.
         
 } where {
@@ -841,13 +852,13 @@ select $this {
   $this owl:intersectionOf [].
   
   filter not exists {
-    $this manchester:conjunction []
+    $this manchester:syntax "AND"
    }
    
   filter not exists {
     $this owl:intersectionOf/rdf:rest*/rdf:first ?someClass.
     filter not exists {
-     ?someClass manchester:frame 'class'.
+     ?someClass manchester:syntax 'CLASS'.
     }
   }
  }
@@ -869,15 +880,14 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class'; 
+  $this manchester:syntax "AND"; 
         manchester:label ?manchesterLabel;
-        manchester:equivalentTo ?manchesterDefinition;
-        manchester:conjunction ?manchesterDefinition.
+        manchester:equivalentTo ?manchesterDefinition.
         
 } where {
 
-  {select (group_concat(?label;separator=' and ') as ?manchesterLabel) where {
-  $this owl:intersectionOf/rdf:rest*/rdf:first/manchester:label ?manchesterDefinition.
+  {select (group_concat(?label;separator=' and ') as ?manchesterDefinition) where {
+  $this owl:intersectionOf/rdf:rest*/rdf:first/manchester:label ?label.
    }
   }
   OPTIONAL
@@ -918,7 +928,7 @@ select $this {
   $this owl:oneOf [].
   
   filter not exists {
-    $this manchester:atomicList []
+    $this manchester:syntax "{}"
    }
    
   filter not exists {
@@ -946,9 +956,8 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
+  $this manchester:syntax "{}";
         manchester:label ?manchesterLabel;
-        manchester:atomicList ?manchesterDefinition;
 		manchester:equivalentTo ?manchesterDefinition.
   
 } where {
@@ -998,7 +1007,7 @@ select $this {
   $this owl:complementOf [].
   
   filter not exists {
-    $this manchester:not []
+    $this manchester:syntax "NOT"
    }
    
   filter not exists {
@@ -1026,10 +1035,9 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:frame 'class';
+  $this manchester:syntax "NOT";
         manchester:label ?manchesterLabel;
-        manchester:equivalentTo ?manchesterDefinition;
-        manchester:not ?manchesterDefinition.
+        manchester:equivalentTo ?manchesterDefinition.
        
 } where {
 
@@ -1084,7 +1092,7 @@ select $this {
   
   $this rdf:type owl:DatatypeProperty.
   filter not exists {
-  $this manchester:frame 'datatypeproperty'}
+  $this manchester:syntax 'datatypeproperty'}
    
   filter not exists {
     $this rdfs:domain ?someClass.
@@ -1113,7 +1121,7 @@ construct {
 
   # create the manchester syntax for the OWL property to be serialized.
   
-  $this manchester:frame 'datatypeproperty';
+  $this manchester:syntax 'datatypeproperty';
         manchester:label ?manchesterLabel;
         manchester:domain ?manchesterDomain;
         manchester:range ?manchesterRange.
@@ -1168,7 +1176,7 @@ select $this {
   
   $this rdf:type owl:ObjectProperty.
   filter not exists {
-  $this manchester:frame 'objectproperty'}
+  $this manchester:syntax 'objectproperty'}
    
   filter not exists {
     $this rdfs:domain ?someDomainClass.
@@ -1205,7 +1213,7 @@ construct {
 
   # create the manchester syntax for the OWL property to be serialized.
   
-  $this manchester:frame 'objectproperty';
+  $this manchester:syntax 'objectproperty';
         manchester:label ?manchesterLabel;
         manchester:domain ?manchesterDomain;
         manchester:range ?manchesterRange.
@@ -1378,7 +1386,7 @@ select $this {
   
   $this rdf:type ?class.   
   filter not exists {
-    $this manchester:frame 'individual'
+    $this manchester:syntax 'individual'
   }  
  
   filter not exists {
@@ -1413,7 +1421,7 @@ prefix skos: <http://www.w3.org/2004/02/skos/core#>
 prefix vann: <http://purl.org/vocab/vann/>
 construct {
   # create the manchester syntax for the named individual to be serialized.
-  $this manchester:frame 'individual';
+  $this manchester:syntax 'individual';
         manchester:individual ?manchesterLabel;
 		manchester:label ?manchesterLabel;
         manchester:type ?manchesterType;
