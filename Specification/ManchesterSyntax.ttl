@@ -134,14 +134,17 @@ construct {
 } where {
 
   # Get the label of the OWL class to be serialized.
-  {$this skos:prefLabel ?preferredLabel.}
+  {$this skos:prefLabel ?preferredLabel.
+  FILTER (lang(?preferredLabel) = 'en')}
   union 
-  {$this rdfs:label ?alternativeLabel.}
+  {$this rdfs:label ?alternativeLabel.
+  FILTER (lang(?alternativeLabel) = 'en')}
   
   # We use an heuristic based on the last part of the IRI to determine the manchester-syntax
   bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
   
-  BIND(CONCAT("[=",STR(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel)),"=]") as ?manchesterLabel)
+  
+  BIND(CONCAT("[=",STR(COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel)),"=]") as ?manchesterLabel)
 } 
 '''.
 
@@ -206,7 +209,8 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "ONLY";
-        manchester:label ?manchesterLabel.
+        manchester:label ?manchesterLabel;
+		manchester:equivalentTo ?equivalentTo.
 } where {
 
   $this owl:allValuesFrom ?allValuesFromClass;
@@ -217,22 +221,25 @@ construct {
   ?someProperty manchester:label ?propertyLabel
   
   # Establish the full label of the OWL restriction class to be serialized.
-  BIND(CONCAT(?propertyLabel, " only ", str(?classLabel)) as ?manchesterDefinition)
+  BIND(CONCAT(?propertyLabel, " only ", str(?classLabel)) as ?manchesterAllLabel)
   
   # Establish whether the restriction class has a label of its own or not. Use when present, otherwise use the manchester definition.
   OPTIONAL
   {
-    $this skos:prefLabel ?prefLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
   OPTIONAL 
   {
-    $this rdfs:label ?altLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
-  BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
   BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
   BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
-  # Get the label of the class to be serialized.   
-  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  # Establish the label based on certain preferred labels   
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterAllLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterAllLabel) as ?equivalentTo)
   
 }
 '''.
@@ -295,7 +302,8 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'SOME';
-        manchester:label ?manchesterlabel.
+        manchester:label ?manchesterlabel;
+		manchester:equivalentTo ?equivalentTo.
 		
 } where {
 
@@ -304,8 +312,28 @@ construct {
 
   ?someValuesFromClass manchester:label ?labelClass.
   ?someProperty manchester:label ?labelProperty.
+
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(?labelProperty, " some ", STR(?labelClass)) as ?manchesterlabel)
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
+  # Get the defining label
+  BIND(CONCAT(?labelProperty, " some ", STR(?labelClass)) as ?manchesterSomelabel)
+  # Get the preferred label
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  # Get the second best label
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Establish the label based on preference
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterSomeLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterSomeLabel) as ?equivalentTo)
     
 }  '''.
 
@@ -360,7 +388,8 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'VALUE';
-        manchester:label ?manchesterlabel.
+        manchester:label ?manchesterlabel;
+		manchester:equivalentTo ?equivalentTo.
         
 } where {
 
@@ -368,8 +397,28 @@ construct {
         owl:onProperty ?someProperty.
   ?value manchester:label ?labelValue.
   ?someProperty manchester:label ?labelProperty.
+ 
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " value ", str(?labelValue)) as ?manchesterlabel)
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
+  # Get the defining label
+  BIND(CONCAT(str(?labelProperty), " value ", str(?labelValue)) as ?manchesterValuelabel)
+  # Get the preferred label
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  # Get the second best label
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Establish the label based on preference
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterValueLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterValueLabel) as ?equivalentTo)
 
 }  '''.
 
@@ -396,7 +445,7 @@ select $this {
 		owl:onProperty ?someProperty.
    
   filter not exists {
-     $this manchester:syntax 'EXACT'
+     $this manchester:syntax 'EXACTLY'
   }
 
   minus {
@@ -423,16 +472,37 @@ construct {
 
   # create the manchester syntax for the OWL class to be serialized.
   
-  $this manchester:syntax 'EXACT';
-        manchester:equivalentTo ?manchesterLabel.
+  $this manchester:syntax 'EXACTLY';
+        manchester:label ?manchesterLabel;
+        manchester:equivalentTo ?equivalentTo.
   
 } where {
 
   $this owl:cardinality ?n;
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
+  
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " exactly ", str(?n)) as ?manchesterLabel)
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
+  # Get the defining label
+  BIND(CONCAT(str(?labelProperty), " exactly ", str(?n)) as ?manchesterExactLabel)
+  # Get the preferred label
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  # Get the second best label
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Establish the label based on preference
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterExactLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterExactLabel) as ?equivalentTo)
 
 }  '''.
 
@@ -487,15 +557,37 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'MAX';
-        manchester:label ?manchesterLabel.
+        manchester:label ?manchesterLabel;
+		manchester:equivalentTo ?equivalentTo.
   
 } where {
 
   $this owl:maxCardinality ?n;
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
+  
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " max ", str(?n)) as ?manchesterLabel)
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
+  
+  # Get the defining label
+  BIND(CONCAT(str(?labelProperty), " max ", str(?n)) as ?manchesterMaxLabel)
+  # Get the preferred label
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  # Get the second best label
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Establish the label based on preference
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterMaxLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterMaxLabel) as ?equivalentTo)
 
 }  '''.
 
@@ -549,15 +641,37 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'MIN';
-        manchester:label ?manchesterLabel.
+        manchester:label ?manchesterLabel;
+		manchester:equivalentTo ?equivalentTo.
   
 } where {
 
   $this owl:minCardinality ?n;
         owl:onProperty ?someProperty.
   ?someProperty manchester:label ?labelProperty.
+  
   # Get the label of the OWL class to be serialized.
-  BIND(CONCAT(str(?labelProperty), " min ", str(?n)) as ?manchesterLabel)
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
+  
+  # Get the defining label
+  BIND(CONCAT(str(?labelProperty), " min ", str(?n)) as ?manchesterMinLabel)
+  # Get the preferred label
+  BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
+  # Get the second best label
+  BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
+  # Establish the label based on preference
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?manchesterMinLabel) as ?manchesterLabel) 
+  # If the class is defined in the ontology with a IRI, then add the definition to it. If the class is a blank node, do not bother.
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterMinLabel) as ?equivalentTo)
 
 }  '''.
 
@@ -627,7 +741,7 @@ construct {
 
   # create the manchester syntax for the class to be serialized.
   $this manchester:syntax 'SUBCLASSOF';
-        manchester:subClassOf ?manchesterDefinition;
+        manchester:subClassOf ?subClassOf;
         manchester:label ?manchesterLabel.
 
 } where {
@@ -653,18 +767,21 @@ construct {
   # Get the definition of the class to be serialized.
   BIND(CONCAT(STR(COALESCE(?explicitDefinition, ?implicitDefinition))) as ?manchesterDefinition)
   
-  OPTIONAL
+    OPTIONAL
   {
-    $this skos:prefLabel ?preferredLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
-  OPTIONAL
+  OPTIONAL 
   {
-    $this rdfs:label ?alternativeLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
   bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
   # Get the label of the class to be serialized.
   
-  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?prefLabel, ?altLabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?subClassOf)
   
 } '''.
 
@@ -735,7 +852,7 @@ construct {
   
   $this manchester:syntax 'EQUIVALENTTO';
         manchester:label ?manchesterLabel;
-        manchester:equivalentTo ?manchesterDefinition. 
+        manchester:equivalentTo ?equivalentTo. 
 } where {
 
   $this owl:equivalentClass ?equivalentClassClass.
@@ -743,15 +860,23 @@ construct {
   # Get the label of the class to be serialized.
   BIND(COALESCE(?definition, "No definition known") as ?manchesterDefinition)
 
-  {$this skos:prefLabel ?preferredLabel}
-  UNION 
-  {$this rdfs:label ?alternativeLabel}
+  OPTIONAL
+  {
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
+  }
+  OPTIONAL 
+  {
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
+  }
     
   # Get the label of the OWL class to be serialized when there is no formal label
   bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
   
   # Establish the label of the class to be serialized.
-  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?prefLabel, ?altLabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?equivalentTo)
 
 }  '''.
 
@@ -806,7 +931,7 @@ construct {
   
   $this  manchester:syntax "OR";
          manchester:label ?manchesterLabel;
-         manchester:equivalentTo ?manchesterDefinition.
+         manchester:equivalentTo ?equivalentTo.
         
 } where {
 
@@ -816,17 +941,20 @@ construct {
   }
   OPTIONAL
   {
-    $this skos:prefLabel ?prefLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
   OPTIONAL 
   {
-    $this rdfs:label ?altLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
   BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?equivalentTo)
   BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
   BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
   # Get the label of the class to be serialized.   
-  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel) as ?manchesterLabel)
   
 }
 '''.
@@ -849,15 +977,14 @@ select $this {
 
   # A class that is the intersection of other classes for which the latter's underlying class expressions are already serialized to manchester syntax
   
-  $this owl:intersectionOf ?intersectionList.
+  $this owl:intersectionOf [].
   
   filter not exists {
     $this manchester:syntax "AND"
    }
    
   minus {
-    $this owl:intersectionOf ?intersectionList.
-    ?intersectionList rdf:rest*/rdf:first ?someClass.
+    $this owl:intersectionOf/rdf:rest*/rdf:first ?someClass
     filter not exists {
      ?someClass manchester:syntax [].
     }
@@ -883,7 +1010,7 @@ construct {
   
   $this manchester:syntax "AND"; 
         manchester:label ?manchesterLabel;
-        manchester:equivalentTo ?manchesterDefinition.
+        manchester:equivalentTo ?equivalentTo.
         
 } where {
 
@@ -893,17 +1020,20 @@ construct {
   }
   OPTIONAL
   {
-    $this skos:prefLabel ?prefLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
   OPTIONAL 
   {
-    $this rdfs:label ?altLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
   BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?equivalentTo)
   BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
   BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
   # Get the label of the class to be serialized.   
-  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel) as ?manchesterLabel)
 
 }
 '''.
@@ -959,7 +1089,7 @@ construct {
   
   $this manchester:syntax "{}";
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?manchesterDefinition.
+		manchester:equivalentTo ?equivalentTo.
   
 } where {
 
@@ -971,19 +1101,22 @@ construct {
 
   BIND(CONCAT("{", ?individualLabels, "}") as ?manchesterDefinition)
 
-OPTIONAL
+  OPTIONAL
   {
-    $this skos:prefLabel ?prefLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
   OPTIONAL 
   {
-    $this rdfs:label ?altLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
   BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?equivalentTo)
   BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
   BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
   # Get the label of the class to be serialized.   
-  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel) as ?manchesterLabel)
 }
 '''.
 
@@ -1038,7 +1171,7 @@ construct {
   
   $this manchester:syntax "NOT";
         manchester:label ?manchesterLabel;
-        manchester:equivalentTo ?manchesterDefinition.
+        manchester:equivalentTo ?equivalentTo.
        
 } where {
 
@@ -1059,17 +1192,20 @@ construct {
   
   OPTIONAL
   {
-    $this skos:prefLabel ?prefLabel
+    $this skos:prefLabel ?prefLabel.
+    FILTER (lang(?prefLabel) = 'en')
   }
   OPTIONAL 
   {
-    $this rdfs:label ?altLabel
+    $this rdfs:label ?altLabel.
+    FILTER (lang(?altLabel) = 'en')
   }
   BIND(IF(isBlank($this), ?manchesterDefinition, CONCAT("[=",replace(str($this),'.*[/#]',''), "=]")) as ?implicitLabel)
+  BIND(IF(isBlank($this), ?unboundDummy, ?manchesterDefinition) as ?equivalentTo)
   BIND(CONCAT("[=",?prefLabel, "=]") as ?preferredLabel)
   BIND(CONCAT("[=",?altLabel, "=]") as ?alternativeLabel)
   # Get the label of the class to be serialized.   
-  BIND(COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel) as ?manchesterLabel)
+  BIND(COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel) as ?manchesterLabel)
   } 
 '''.
 
@@ -1133,15 +1269,17 @@ construct {
   # Label
   
   {
-  {$this skos:prefLabel ?preferredLabel}
+  {$this skos:prefLabel ?preferredLabel.
+  FILTER (lang(?preferredLabel) = 'en')}
   UNION 
-  {$this rdfs:label ?alternativeLabel}
+  {$this rdfs:label ?alternativeLabel.
+  FILTER (lang(?alternativeLabel) = 'en')}
     
   # Get the label of the OWL class to be serialized when there is no formal label
   bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
   
   # Establish the label of the property to be serialized.
-  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel),"=]") as ?manchesterLabel)
   }
   
   # Domain
@@ -1225,15 +1363,17 @@ construct {
   # Label
   
   {
-  {$this skos:prefLabel ?preferredLabel}
+  {$this skos:prefLabel ?preferredLabel.
+  FILTER (lang(?preferredLabel) = 'en')}
   UNION 
-  {$this rdfs:label ?alternativeLabel}
+  {$this rdfs:label ?alternativeLabel.
+  FILTER (lang(?alternativeLabel) = 'en')}
     
   # Get the label of the OWL class to be serialized when there is no formal label
   bind(replace(str($this),'.*[/#]','') as ?implicitLabel)
   
   # Establish the label of the property to be serialized.
-  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativelabel, ?implicitLabel),"=]") as ?manchesterLabel)
+  BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativeLabel, ?implicitLabel),"=]") as ?manchesterLabel)
   }
   
   # Domain
@@ -1435,18 +1575,21 @@ construct {
   # Label
   {
     {
-      $this skos:prefLabel ?label1.
+      $this skos:prefLabel ?preferredLabel.
+	   FILTER (lang(?preferredLabel) = 'en')
+	  
     }
     UNION 
     {
-      $this rdfs:label ?label2.
+      $this rdfs:label ?alternativeLabel.
+	      FILTER (lang(?alternativeLabel) = 'en')
     }
    
     # We use an heuristic based on the last part of the IRI to determine the manchester-syntax based label
     BIND(REPLACE(STR($this),'.*[/#]','') as ?implicitLabel)
      
 	# Establish explicit label, if any.
-    BIND(CONCAT("[=",COALESCE(?label1, ?label2),"=]") as ?explicitLabel)
+    BIND(CONCAT("[=",COALESCE(?preferredLabel, ?alternativeLabel),"=]") as ?explicitLabel)
     
 	# Establish the label of the named individual to be serialized.
     BIND(COALESCE(?explicitLabel, ?implicitLabel) as ?manchesterLabel)
@@ -1456,8 +1599,7 @@ construct {
   {
     $this a ?class.
     ?class manchester:label ?className.
-    BIND(CONCAT("[=",?className,"=]") as ?typeDefinition)
-    BIND(CONCAT("Type:  ", ?typeDefinition) as ?manchesterType)
+    BIND(CONCAT("Type:  ", ?className) as ?manchesterType)
     FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, owl:Class))
   }
   # Fact 
