@@ -51,12 +51,156 @@ def iteratePyShacl(manchester_generator, serializable_graph):
         advanced=True,
         inplace=True,
         inference=None,
-        iterate_rules=True, 
+        iterate_rules=False, #rather than setting this to true, it is better to do the iteration in the script as PyShacl seems to have some buggy behavior around iteration.
         debug=False,
         )
-       
-        writeGraph(serializable_graph)
-             
+        
+        resultquery = serializable_graph.query('''
+            
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix sh: <http://www.w3.org/ns/shacl#>
+ASK
+WHERE {
+  # Any OWL or RDFS entity that is not yet described in terms of the manchester syntax
+  {
+    $this a owl:Class.
+  }  
+  UNION
+  {
+    $this a rdfs:Class.
+  }
+  UNION
+  {
+    $this rdfs:subClassOf []
+  }
+  UNION
+  {
+    $this owl:equivalentClass []
+  }
+  UNION
+  {
+    $this owl:unionOf []
+  }
+  UNION
+  {
+    $this owl:intersectionOf []
+  }
+  UNION
+  {
+    $this owl:complementOf []
+  }
+  UNION
+  {
+    $this owl:oneOf []
+  }
+  UNION
+  {
+    $this owl:allValuesFrom []
+  }
+  UNION
+  {
+    $this owl:someValuesFrom []
+  }
+  UNION
+  {
+    $this owl:hasValue []
+  }
+  UNION
+  {
+    $this owl:cardinality []
+  }
+  UNION
+  {
+    $this owl:maxCardinality []
+  }
+  UNION
+  {
+    $this owl:minCardinality []
+  }  
+  UNION
+  {
+    $this rdf:type owl:DatatypeProperty.
+  }
+  UNION
+  {
+    $this rdf:type owl:ObjectProperty.
+  }
+  UNION
+  {
+    $this rdfs:subPropertyOf [].
+  }
+  UNION
+  {
+    $this owl:equivalentProperty [].
+  }
+  filter not exists {
+    $this manchester:syntax 'CLASS'.
+  }
+  filter not exists {
+    $this manchester:syntax 'CLASS'.
+  }
+  filter not exists {
+    $this manchester:syntax 'SUBCLASSOF'.
+  }
+  filter not exists {
+    $this manchester:syntax 'EQUIVALENTTO'.
+  }
+  filter not exists {
+    $this manchester:syntax 'OR'.
+  }
+  filter not exists {
+    $this manchester:syntax 'AND'.
+  }
+  filter not exists {
+    $this manchester:syntax 'NOT'.
+  }
+  filter not exists {
+    $this manchester:syntax '{}'.
+  }
+  filter not exists {
+    $this manchester:syntax 'ONLY'.
+  }
+  filter not exists {
+    $this manchester:syntax 'SOME'.
+  }
+  filter not exists {
+    $this manchester:syntax 'VALUE'.
+  }
+  filter not exists {
+    $this manchester:syntax 'EXACTLY'.
+  }
+  filter not exists {
+    $this manchester:syntax 'MAX'.
+  }
+  filter not exists {
+    $this manchester:syntax 'MIN'.
+  }
+  filter not exists {
+    $this manchester:syntax 'DATATYPEPROPERTY'.
+  }
+  filter not exists {
+    $this manchester:syntax 'OBJECTPROPERTY'.
+  }
+  filter not exists {
+    $this manchester:syntax 'SUBPROPERTYOF'.
+  }
+  filter not exists {
+    $this manchester:syntax 'EQUIVALENTPROPERTY'.
+  }
+}
+        ''')   
+
+        # Check whether another iteration is needed. If every OWL and RDFS construct contains a manchester:syntax statement, the processing is considered done.
+        for result in resultquery:
+            if result == True:
+                writeGraph(serializable_graph)
+                iteratePyShacl(manchester_generator, serializable_graph)
+            else: 
+                 print ("The ontology has been interpreted in manchester syntax and saved to Turtle-format as " + filename_stem+"-manchestersyntax.ttl")
+                 writeGraph(serializable_graph)
 
 # loop through any turtle files in the input directory
 for filename in os.listdir(directory_path+"manchestersyntax/Tools/Input"):
@@ -66,26 +210,25 @@ for filename in os.listdir(directory_path+"manchestersyntax/Tools/Input"):
         # Establish the stem of the file name for reuse in newly created files
         filename_stem = os.path.splitext(filename)[0]
         
-
-# Get the manchester syntax vocabulary and place it in a string
-manchester_generator = readGraphFromFile("C:/Users/Administrator/Documents/Branches/manchestersyntax/Specification/manchestersyntax.ttl")
-
-# Get some ontology to be transformed from OWL to Manchester Syntax. The ontology needs to be placed in the input directory.
-ontology_graph = readGraphFromFile(file_path)   
-
-
-# Join the manchester syntax and the ontology to be transformed into one big string.
-serializable_graph_string = ontology_graph
-
-# Create a graph of the string consisting of the manchester syntax and the ontology to be transformed 
-serializable_graph = rdflib.Graph().parse(data=serializable_graph_string , format="ttl")
-serializable_graph.bind("manchester", manchester)
-
-# Inform user
-print ('Creating Manchester Syntax labels and definitions...')
-
-# Call the shacl engine with the HTML vocabulary and the document to be serialized
-iteratePyShacl(manchester_generator, serializable_graph)
-
-# Inform user
-print ('Done.')
+        # Get the manchester syntax vocabulary and place it in a string
+        manchester_generator = readGraphFromFile("C:/Users/Administrator/Documents/Branches/manchestersyntax/Specification/manchestersyntax.ttl")
+        
+        # Get some ontology to be transformed from OWL to Manchester Syntax. The ontology needs to be placed in the input directory.
+        ontology_graph = readGraphFromFile(file_path)   
+        
+        
+        # Join the manchester syntax and the ontology to be transformed into one big string.
+        serializable_graph_string = ontology_graph
+        
+        # Create a graph of the string consisting of the manchester syntax and the ontology to be transformed 
+        serializable_graph = rdflib.Graph().parse(data=serializable_graph_string , format="ttl")
+        serializable_graph.bind("manchester", manchester)
+        
+        # Inform user
+        print ('Creating Manchester Syntax labels and definitions...')
+        
+        # Call the shacl engine with the HTML vocabulary and the document to be serialized
+        iteratePyShacl(manchester_generator, serializable_graph)
+        
+        # Inform user
+        print ('Done.')
