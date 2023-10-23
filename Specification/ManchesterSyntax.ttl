@@ -328,8 +328,9 @@ select $this {
    
   minus {
     $this owl:hasValue ?value.
+	?value ?anyPredicate ?anyObject.
     filter not exists {
-     ?value manchester:syntax 'individual'.
+     ?value manchester:syntax 'INDIVIDUAL'.
     }
   }
  }
@@ -361,8 +362,17 @@ construct {
         owl:onProperty ?someProperty.
   
   # Get the labels for the individual and property
-  ?someIndividual manchester:label ?individualLabel.
-  ?someProperty manchester:label ?propertyLabel.
+  {?someIndividual manchester:label ?individualLabel.}
+  UNION
+  {FILTER NOT EXISTS {  $this owl:hasValue ?someIndividual. 
+     ?someIndividual ?anyPredicate ?anyObject}
+   BIND(STR(?someIndividual) as ?individualLabel)}
+ 
+  {?someProperty manchester:label ?propertyLabel.}
+    UNION
+  {FILTER NOT EXISTS {  $this owl:onProperty ?someProperty. 
+      ?someProperty ?anyPredicate ?anyObject}
+    BIND(STR(?someProperty) as ?individualLabel)}
   
   # Establish the full description of the OWL restriction class to be serialized.
   BIND(CONCAT(?propertyLabel, " value ", ?individualLabel) as ?manchesterDescription)

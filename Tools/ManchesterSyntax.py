@@ -213,7 +213,7 @@ for filename in os.listdir(directory_path+"manchestersyntax/Tools/Input"):
         filename_stem = os.path.splitext(filename)[0]
         
         # Get the manchester syntax vocabulary and place it in a string
-        manchester_generator = readGraphFromFile(directory_path+"manchestersyntax/Specification/manchestersyntax-kopie.ttl")
+        manchester_generator = readGraphFromFile(directory_path+"manchestersyntax/Specification/manchestersyntax.ttl")
         
         # Get some ontology to be transformed from OWL to Manchester Syntax. The ontology needs to be placed in the input directory.
         ontology_graph = readGraphFromFile(file_path)   
