@@ -628,7 +628,8 @@ select $this {
    }
   
    minus {
-    $this rdfs:subClassOf ?subClassOfClass
+    $this rdfs:subClassOf ?someClass.
+	?someClass ?anyPredicate [].
     filter not exists {
      ?subClassOfClass manchester:label []
     }
@@ -680,7 +681,7 @@ construct {
   UNION
   # There may be superclasses that unfortunately do not get defined in the turtle file. We call a function to handle the implicit label.
   {$this rdfs:subClassOf ?superClass.
-  BIND(IF(isBlank(?subClassOf), ?unboundDummy, function:getLabel(?superClass)) as ?implicitDefinition)
+  BIND(IF(isBlank(?superClass), ?unboundDummy, function:getLabel(?superClass)) as ?implicitDefinition)
   }
   
   # Get the label of the super class for reference in the manchester description
@@ -721,6 +722,7 @@ select $this {
   
   minus {
     $this owl:equivalentClass ?equivalentClass.
+	?equivalentClass ?anyPredicate [].
     filter not exists {
      ?equivalentClass manchester:label []
     }
