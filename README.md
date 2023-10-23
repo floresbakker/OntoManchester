@@ -1,6 +1,6 @@
 # About
 
-A RDF-based vocabulary for Manchester Syntax.
+A RDF-based vocabulary to express OWL ontologies into Manchester Syntax.
 
 ## Background
 
