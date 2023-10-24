@@ -673,11 +673,13 @@ construct {
 
 } where {
   
-  $this rdfs:subClassOf ?superClass.
-  OPTIONAL
-  {?superClass manchester:label ?prefeLabel.}
-  BIND(IF(isBlank(?superClass), ?unboundDummy, function:getLabel(?superClass)) as ?alteLabel)
-  BIND(COALESCE(?prefeLabel, ?alteLabel) as ?manchesterDescription)
+  {$this rdfs:subClassOf ?superClass.
+  ?superClass manchester:label ?manchesterDescription.}
+  UNION
+  {$this rdfs:subClassOf ?superClass.
+  FILTER NOT EXISTS {?superClass ?anyPredicate [].}
+  BIND(function:getLabel(?superClass) as ?manchesterDescription)
+  }
   
   # Establish the label for the owl class. If a blank node, then use the description of the class als label, including manchester syntax 'subclass' notation. If an IRI, then use the preferred label.
   BIND(IF(isBlank($this), CONCAT("SubClassOf: ",?manchesterDescription), CONCAT("[=",function:getLabel($this), "=]")) as ?manchesterLabel)
@@ -748,7 +750,7 @@ construct {
   UNION
   {$this owl:equivalentClass ?equivalentClass.
   FILTER NOT EXISTS {?superClass ?anyPredicate [].}
-  BIND(IF(isBlank(?equivalentClass), ?unboundDummy, function:getLabel(?superClass)) as ?manchesterDescription)
+  BIND(function:getLabel(?superClass) as ?manchesterDescription)
   }
   
   # Establish the label for the owl class. If a blank node, then use the description of the class als label, including manchester syntax 'EquivalentTo' notation. If an IRI, then use the preferred label.
