@@ -1500,6 +1500,7 @@ prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix respec: <https://respec.org/model/> 
 prefix sh: <http://www.w3.org/ns/shacl#>
 
 select $this {
@@ -1513,12 +1514,12 @@ select $this {
  
   minus {
     $this rdf:type ?class. 
-	?class ?anyPredicate [].
+    ?class ?anyPredicate [].
     filter not exists {
      ?class manchester:label []
     }
   }
-FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, sh:SPARQLRule, sh:SPARQLTarget, rdfs:Class, rdf:Property, owl:Class, owl:DatatypeProperty, owl:ObjectProperty, owl:FunctionalProperty, owl:IrreflexiveProperty, owl:Restriction, owl:Ontology, owl:InverseFunctionalProperty, owl:InverseProperty, owl:AllDifferent, owl:AnnotationProperty, owl:NegativePropertyAssertion, owl:OntologyProperty, owl:AllDisjointClasses, owl:AllDisjointProperties, owl:Annotation,owl:AsymmetricProperty, owl:Axiom, owl:DataRange, owl:DeprecatedClass, owl:DeprecatedProperty))
+FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, sh:SPARQLRule, sh:SPARQLTarget, rdfs:Class, rdf:Property, owl:Class, owl:DatatypeProperty, owl:ObjectProperty, owl:FunctionalProperty, owl:IrreflexiveProperty, owl:Restriction, owl:Ontology, owl:InverseFunctionalProperty, owl:InverseProperty, owl:AllDifferent, owl:AnnotationProperty, owl:NegativePropertyAssertion, owl:OntologyProperty, owl:AllDisjointClasses, owl:AllDisjointProperties, owl:Annotation,owl:AsymmetricProperty, owl:Axiom, owl:DataRange, owl:DeprecatedClass, owl:DeprecatedProperty, respec:Ontology))
 }
 '''.
 
