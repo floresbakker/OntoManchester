@@ -2,6 +2,10 @@
 
 A RDF-based vocabulary to express OWL ontologies into Manchester Syntax.
 
+# Status
+
+Unstable, no release yet. Work in progress. First working version planned for Q1 2024.
+
 ## Background
 
 Manchester Syntax is a human-readable syntax used to represent and work with knowledge expressed in the Web Ontology Language (OWL). OWL is a semantic web language designed for expressing ontologies, which are formal representations of knowledge about a specific domain. These ontologies are used to enable computers to understand and reason about the semantics of information on the web.
