@@ -37,7 +37,7 @@ def readGraphFromFile(file_path):
 
 # Function to write a graph to a file
 def writeGraph(graph):
-    graph.serialize(destination=directory_path+"manchestersyntax/Tools/Output/"+filename_stem+"-manchestersyntax.ttl", format="turtle")
+    graph.serialize(destination=directory_path+"OntoManchester/Tools/Output/"+filename_stem+"-manchestersyntax.ttl", format="turtle")
 
 # Function to call the PyShacl engine so that a RDF model of an HTML document can be serialized to HTML-code.
 def iteratePyShacl(manchester_generator, serializable_graph, iterator):
@@ -205,15 +205,15 @@ WHERE {
                  writeGraph(serializable_graph)
 
 # loop through any turtle files in the input directory
-for filename in os.listdir(directory_path+"manchestersyntax/Tools/Input"):
+for filename in os.listdir(directory_path+"OntoManchester/Tools/Input"):
     if filename.endswith(".ttl"):
-        file_path = os.path.join(directory_path+"manchestersyntax/Tools/Input", filename)
+        file_path = os.path.join(directory_path+"OntoManchester/Tools/Input", filename)
         
         # Establish the stem of the file name for reuse in newly created files
         filename_stem = os.path.splitext(filename)[0]
         
         # Get the manchester syntax vocabulary and place it in a string
-        manchester_generator = readGraphFromFile(directory_path+"manchestersyntax/Specification/manchestersyntax.ttl")
+        manchester_generator = readGraphFromFile(directory_path+"OntoManchester/Specification/manchestersyntax.ttl")
         
         # Get some ontology to be transformed from OWL to Manchester Syntax. The ontology needs to be placed in the input directory.
         ontology_graph = readGraphFromFile(file_path)   
