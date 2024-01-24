@@ -126,6 +126,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'CLASS';
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel.
 } where {
 
@@ -163,7 +164,7 @@ select $this {
    
   minus {
     $this owl:allValuesFrom ?someClass.
-	?someClass ?anyPredicate [].
+    ?someClass ?anyPredicate [].
       filter not exists {
        ?someClass manchester:label []
     }
@@ -171,7 +172,7 @@ select $this {
   
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
   }
@@ -185,7 +186,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:allValuesFrom.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:allValuesFrom'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -197,9 +198,10 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "ONLY";
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
-		
+        manchester:equivalentTo ?equivalentTo.
+
 } where {
 
   $this owl:allValuesFrom ?someClass;
@@ -229,7 +231,7 @@ shp:SerializableOwlRestriction_SomeValuesFrom
   target:SerializableOwlRestriction_SomeValuesFrom
     a sh:SPARQLTarget;
     sh:select '''
-	
+
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -241,14 +243,14 @@ select $this {
   
   $this a owl:Restriction;
         owl:someValuesFrom [].
-		
+
   filter not exists {
     $this manchester:syntax 'SOME'
-	}
+  }
    
   minus {
     $this owl:someValuesFrom ?someClass.
-	?someClass ?anyPredicate [].
+    ?someClass ?anyPredicate [].
     filter not exists {
      ?someClass manchester:label []
     }
@@ -256,7 +258,7 @@ select $this {
  
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
     }
@@ -269,7 +271,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:someValuesFrom.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:someValuesFrom'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -281,9 +283,10 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "SOME";
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
-		
+        manchester:equivalentTo ?equivalentTo.
+
 } where {
 
   $this owl:someValuesFrom ?someClass;
@@ -332,7 +335,7 @@ select $this {
    
   minus {
     $this owl:hasValue ?value.
-	?value ?anyPredicate [].
+    ?value ?anyPredicate [].
     filter not exists {
      ?value manchester:syntax 'INDIVIDUAL'.
     }
@@ -340,7 +343,7 @@ select $this {
   
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
     }
@@ -353,7 +356,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:hasValue.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:hasValue'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -365,9 +368,10 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "VALUE";
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
-		
+        manchester:equivalentTo ?equivalentTo.
+
 } where {
 
   $this owl:hasValue ?someIndividual;
@@ -417,7 +421,7 @@ select $this {
   
   $this a owl:Restriction;
         owl:cardinality [];
-		owl:onProperty ?someProperty.
+        owl:onProperty ?someProperty.
    
   filter not exists {
      $this manchester:syntax 'EXACTLY'
@@ -425,7 +429,7 @@ select $this {
 
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
     }
@@ -438,7 +442,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:cardinality.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:cardinality'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -450,6 +454,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'EXACTLY';
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
         manchester:equivalentTo ?equivalentTo.
   
@@ -490,7 +495,7 @@ select $this {
   
   $this a owl:Restriction;
         owl:maxCardinality [];
-		owl:onProperty ?someProperty.
+        owl:onProperty ?someProperty.
    
   filter not exists {
     $this manchester:syntax 'MAX'
@@ -498,7 +503,7 @@ select $this {
 
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
     }
@@ -511,7 +516,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:maxCardinality.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:maxCardinality'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -523,8 +528,9 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'MAX';
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
+        manchester:equivalentTo ?equivalentTo.
   
 } where {
 
@@ -571,7 +577,7 @@ select $this {
 
   minus {
     $this owl:onProperty ?someProperty.
-	?someProperty ?anyPredicate [].
+    ?someProperty ?anyPredicate [].
     filter not exists {
       ?someProperty manchester:label []
     }
@@ -584,7 +590,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for OWL Restriction owl:minCardinality.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl restriction owl:minCardinality'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -596,8 +602,9 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax 'MIN';
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
+        manchester:equivalentTo ?equivalentTo.
   
 } where {
 
@@ -644,7 +651,7 @@ select $this {
   
    minus {
     $this rdfs:subClassOf ?someClass.
-	?someClass ?anyPredicate [].
+    ?someClass ?anyPredicate [].
     filter not exists {
      ?someClass manchester:label []
     }
@@ -657,7 +664,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for rdfs:subClassOf classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for rdfs:subClassOf classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -668,6 +675,7 @@ construct {
 
   # create the manchester syntax for the class to be serialized.
   $this manchester:syntax 'SUBCLASSOF';
+        manchester:type 'CLASS';
         manchester:subClassOf ?subClassOf;
         manchester:label ?manchesterLabel.
 
@@ -715,7 +723,7 @@ select $this {
   
   minus {
     $this owl:equivalentClass ?equivalentClass.
-	?equivalentClass ?anyPredicate [].
+    ?equivalentClass ?anyPredicate [].
     filter not exists {
      ?equivalentClass manchester:label []
     }
@@ -728,7 +736,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:equivalentClass classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:equivalentClass classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -740,9 +748,10 @@ construct {
   # create the manchester syntax for the class to be serialized.
   
   $this manchester:syntax 'EQUIVALENTTO';
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
         manchester:equivalentTo ?equivalentTo. 
-		
+
 } where {
 
   {$this owl:equivalentClass ?equivalentClass.
@@ -771,7 +780,7 @@ shp:Serializable_unionOf
   target:Serializable_unionOf
     a sh:SPARQLTarget;
     sh:select '''
-	
+
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -789,7 +798,7 @@ select $this {
    
   minus {
     $this owl:unionOf/rdf:rest*/rdf:first ?someClass.
-	?someClass ?anyPredicate [].
+    ?someClass ?anyPredicate [].
     filter not exists {
      ?someClass manchester:label []
     }
@@ -802,7 +811,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:unionOf classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:unionOf classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -814,6 +823,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this  manchester:syntax "OR";
+         manchester:type 'CLASS';
          manchester:label ?manchesterLabel;
          manchester:equivalentTo ?equivalentTo.
         
@@ -850,7 +860,7 @@ shp:Serializable_intersectionOf
   target:Serializable_intersectionOf
     a sh:SPARQLTarget;
     sh:select '''
-	
+
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -868,7 +878,7 @@ select $this {
    
   minus {
     $this owl:intersectionOf/rdf:rest*/rdf:first ?someClass.
-	?someClass ?somePredicate [].
+    ?someClass ?somePredicate [].
     filter not exists {
      ?someClass manchester:syntax [].
     }
@@ -881,7 +891,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:intersectionOf classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:intersectionOf classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -893,6 +903,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "AND"; 
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
         manchester:equivalentTo ?equivalentTo.
         
@@ -929,7 +940,7 @@ shp:Serializable_oneOf
   target:Serializable_oneOf
     a sh:SPARQLTarget;
     sh:select '''
-	
+
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -959,7 +970,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:oneOf classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:oneOf classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -971,8 +982,9 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "{}";
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
-		manchester:equivalentTo ?equivalentTo.
+        manchester:equivalentTo ?equivalentTo.
   
 } where {
 
@@ -1000,7 +1012,7 @@ shp:Serializable_complementOf
   target:Serializable_complementOf
     a sh:SPARQLTarget;
     sh:select '''
-	
+
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -1018,7 +1030,7 @@ select $this {
    
   minus {
     $this owl:complementOf ?someClass.
-	?someClass ?anyPredicate [].
+    ?someClass ?anyPredicate [].
     filter not exists {
      ?someClass manchester:label []
     }
@@ -1031,7 +1043,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for owl:complementOf classes.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:complementOf classes.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1043,6 +1055,7 @@ construct {
   # create the manchester syntax for the OWL class to be serialized.
   
   $this manchester:syntax "NOT";
+        manchester:type 'CLASS';
         manchester:label ?manchesterLabel;
         manchester:equivalentTo ?equivalentTo.
        
@@ -1090,7 +1103,7 @@ select $this {
    
   minus {
     $this rdfs:domain ?someDomainClass.
-	?someDomainClass ?anyPredicate [].
+    ?someDomainClass ?anyPredicate [].
     filter not exists {
      ?someDomainClass manchester:label []
     }
@@ -1098,7 +1111,7 @@ select $this {
   
   minus {
     $this rdfs:range ?someRangeClass.
-	?someRangeClass ?anyPredicate [].
+    ?someRangeClass ?anyPredicate [].
     filter not exists {
      ?someRangeClass manchester:label []
    }
@@ -1112,7 +1125,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for the rdfs:domain and rdfs:range of a rdf:Property.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for rdf:Property.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1140,7 +1153,7 @@ construct {
     {$this rdfs:domain ?domainClass.
     ?domainClass manchester:label ?explicitDomain.}
     
-	UNION
+    UNION
     {
     $this rdfs:domain ?domainClass.
     FILTER NOT EXISTS {?domainClass ?anyPredicate []} 
@@ -1192,7 +1205,7 @@ select $this {
    
   minus {
     $this rdfs:domain ?someDomainClass.
-	?someDomainClass ?anyPredicate [].
+    ?someDomainClass ?anyPredicate [].
     filter not exists {
      ?someClass manchester:label []
    }
@@ -1206,7 +1219,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for the rdfs:domain of an owl:DatatypeProperty.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1236,7 +1249,7 @@ construct {
     {$this rdfs:domain ?domainClass.
     ?domainClass manchester:label ?explicitDomain.}
     
-	UNION
+    UNION
     {
     $this rdfs:domain ?domainClass.
     FILTER NOT EXISTS {?domainClass ?anyPredicate []} 
@@ -1277,7 +1290,7 @@ select $this {
    
   minus {
     $this rdfs:domain ?someDomainClass.
-	?someDomainClass ?anyPredicate [].
+    ?someDomainClass ?anyPredicate [].
     filter not exists {
      ?someDomainClass manchester:label []
     }
@@ -1285,7 +1298,7 @@ select $this {
   
   minus {
     $this rdfs:range ?someRangeClass.
-	?someRangeClass ?anyPredicate [].
+    ?someRangeClass ?anyPredicate [].
     filter not exists {
      ?someRangeClass manchester:label []
    }
@@ -1299,7 +1312,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax label and definition for the rdfs:domain and rdfs:range of an owl:ObjectProperty.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:ObjectProperty.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1327,7 +1340,7 @@ construct {
     {$this rdfs:domain ?domainClass.
     ?domainClass manchester:label ?explicitDomain.}
     
-	UNION
+    UNION
     {
     $this rdfs:domain ?domainClass.
     FILTER NOT EXISTS {?domainClass ?anyPredicate []} 
@@ -1379,8 +1392,8 @@ select $this {
     }
   
   minus {
-	$this rdfs:subPropertyOf ?someProperty.
-	?someProperty ?anyPredicate [].
+    $this rdfs:subPropertyOf ?someProperty.
+    ?someProperty ?anyPredicate [].
      filter not exists {	
      ?someProperty manchester:label []
     }
@@ -1393,7 +1406,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax for an owl:DatatypeProperty with a subPropertyOf relation.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty with a subPropertyOf relation.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1459,7 +1472,7 @@ select $this {
     rdfs:comment 'A rule that creates a manchester syntax for an owl:DatatypeProperty with an equivalentProperty relation.'@en;
     skos:prefLabel 'Manchester Syntax serialisation rule for owl:DatatypeProperty with an equivalentProperty relation.'@en;
     sh:construct '''
-	
+
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
 prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
 prefix owl: <http://www.w3.org/2002/07/owl#>
@@ -1472,7 +1485,7 @@ construct {
   # create the manchester syntax for the OWL property to be serialized.
   
   $this manchester:syntax 'EQUIVALENTPROPERTY';
-        manchester:equivalentProperty ?manchesterEquivalentProperty.		
+        manchester:equivalentProperty ?manchesterEquivalentProperty.
   
 } where {
 
@@ -1502,6 +1515,7 @@ prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 prefix respec: <https://respec.org/model/> 
 prefix sh: <http://www.w3.org/ns/shacl#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
 
 select $this {
 
@@ -1519,7 +1533,8 @@ select $this {
      ?class manchester:label []
     }
   }
-FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, sh:SPARQLRule, sh:SPARQLTarget, rdfs:Class, rdf:Property, owl:Class, owl:DatatypeProperty, owl:ObjectProperty, owl:FunctionalProperty, owl:IrreflexiveProperty, owl:Restriction, owl:Ontology, owl:InverseFunctionalProperty, owl:InverseProperty, owl:AllDifferent, owl:AnnotationProperty, owl:NegativePropertyAssertion, owl:OntologyProperty, owl:AllDisjointClasses, owl:AllDisjointProperties, owl:Annotation,owl:AsymmetricProperty, owl:Axiom, owl:DataRange, owl:DeprecatedClass, owl:DeprecatedProperty, respec:Ontology))
+# Make sure to only query instantiations of classes, and not ontologies, classes, complex classes, properties, annotations, SHACL shapes nor SKOS concepts
+FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, sh:SPARQLRule, sh:SPARQLTarget, rdfs:Class, rdf:Property, owl:Class, owl:DatatypeProperty, owl:ObjectProperty, owl:FunctionalProperty, owl:IrreflexiveProperty, owl:Restriction, owl:Ontology, owl:InverseFunctionalProperty, owl:InverseProperty, owl:AllDifferent, owl:AnnotationProperty, owl:NegativePropertyAssertion, owl:OntologyProperty, owl:AllDisjointClasses, owl:AllDisjointProperties, owl:Annotation,owl:AsymmetricProperty, owl:Axiom, owl:DataRange, owl:DeprecatedClass, owl:DeprecatedProperty, skos:Concept, skos:ConceptScheme, skos:Collection, respec:Ontology))
 }
 '''.
 
@@ -1539,25 +1554,25 @@ construct {
   # create the manchester syntax for the named individual to be serialized.
   $this manchester:syntax 'INDIVIDUAL';
         manchester:individual ?manchesterLabel;
-		manchester:label ?manchesterLabel;
-        manchester:type ?manchesterType;
+        manchester:label ?manchesterLabel;
+        manchester:class ?manchesterClass;
         manchester:fact ?manchesterFact.
 } where {
 
   # Label of the named individual
   {BIND(function:getLabel($this) as ?manchesterLabel)}
   
-  # Type
+  # Class
   UNION
   {
     $this a ?class.
     {?class manchester:label ?className.}
-	UNION
-	{$this a ?class.
-	FILTER NOT EXISTS {?class ?anyPredicate []}
-	BIND(IF(isBlank(?class), ?unboundDummy, function:getLabel(?class)) as ?className)
-	}
-    BIND(CONCAT("Type:  ", ?className) as ?manchesterType)    
+    UNION
+    {$this a ?class.
+    FILTER NOT EXISTS {?class ?anyPredicate []}
+    BIND(IF(isBlank(?class), ?unboundDummy, function:getLabel(?class)) as ?className)
+    }
+    BIND(CONCAT("Type:  ", ?className) as ?manchesterClass)    
   }
   # Fact 
   UNION
