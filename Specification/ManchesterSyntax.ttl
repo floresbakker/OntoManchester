@@ -339,6 +339,12 @@ select $this {
     filter not exists {
      ?value manchester:syntax 'INDIVIDUAL'.
     }
+	filter not exists {
+     ?value manchester:syntax 'CONCEPTSCHEME'.
+    }
+	filter not exists {
+     ?value manchester:syntax 'CONCEPT'.
+    }
   }
   
   minus {
@@ -1394,7 +1400,7 @@ select $this {
   minus {
     $this rdfs:subPropertyOf ?someProperty.
     ?someProperty ?anyPredicate [].
-     filter not exists {	
+     filter not exists {
      ?someProperty manchester:label []
     }
    }
@@ -1541,7 +1547,7 @@ FILTER (?class NOT IN (sh:PropertyShape, sh:NodeShape, sh:SPARQLRule, sh:SPARQLT
 rule:Serialize_namedIndividual
   a sh:SPARQLRule;
   skos:prefLabel 'Named individuals rule'@en;
-  rdfs:comment 'The named individuals rule creates a section of named individuals for the ontology in the document.'@en ;
+  rdfs:comment 'The named individuals rule serializes an named individual into Manchester Syntax.'@en ;
   sh:construct """
 
 prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
@@ -1553,7 +1559,6 @@ prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 construct {
   # create the manchester syntax for the named individual to be serialized.
   $this manchester:syntax 'INDIVIDUAL';
-        manchester:individual ?manchesterLabel;
         manchester:label ?manchesterLabel;
         manchester:class ?manchesterClass;
         manchester:fact ?manchesterFact.
@@ -1591,6 +1596,117 @@ construct {
   BIND(CONCAT("Fact:  ", function:getPrefixedIRI(?propertyLabel), " ", COALESCE(str(?literal), ?objectLabel)) as ?manchesterFact)
 }
   
+""".
+
+shp:Serializable_conceptScheme
+    a sh:NodeShape;
+    sh:rule rule:Serialize_conceptScheme;
+    sh:target target:Serialize_conceptScheme;
+    skos:prefLabel 'Serializable concept scheme shape.'@en.
+
+target:Serialize_conceptScheme
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix respec: <https://respec.org/model/> 
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+select $this {
+
+  # A concept scheme
+  
+  $this rdf:type skos:ConceptScheme.   
+  filter not exists {
+    $this manchester:syntax 'CONCEPTSCHEME'
+  }  
+ 
+
+
+}
+'''.
+
+rule:Serialize_conceptScheme
+  a sh:SPARQLRule;
+  skos:prefLabel 'Concept scheme rule'@en;
+  rdfs:comment 'The concept scheme rule serializes a concept scheme into Manchester Syntax.'@en ;
+  sh:construct """
+
+prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+
+construct {
+  # create the manchester syntax for the named individual to be serialized.
+  $this manchester:syntax 'CONCEPTSCHEME';
+        manchester:class 'Type: Concept Scheme';
+        manchester:label ?manchesterLabel.
+
+} where {
+
+  # Label of the concept scheme
+  BIND(function:getLabel($this) as ?manchesterLabel)
+}
+
+""".
+
+shp:Serializable_concept
+    a sh:NodeShape;
+    sh:rule rule:Serialize_concept;
+    sh:target target:Serialize_concept;
+    skos:prefLabel 'Serializable concept shape.'@en.
+
+target:Serialize_concept
+    a sh:SPARQLTarget;
+    sh:select '''
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+prefix respec: <https://respec.org/model/> 
+prefix sh: <http://www.w3.org/ns/shacl#>
+prefix skos: <http://www.w3.org/2004/02/skos/core#>
+
+select $this {
+
+  # A concept 
+  
+  $this rdf:type skos:Concept.   
+  filter not exists {
+    $this manchester:syntax 'CONCEPT'
+  }  
+}
+'''.
+
+rule:Serialize_concept
+  a sh:SPARQLRule;
+  skos:prefLabel 'Concept rule'@en;
+  rdfs:comment 'The concept rule serializes a concept into Manchester Syntax.'@en ;
+  sh:construct """
+
+prefix function: <https://data.rijksfinancien.nl/manchester/model/function/>
+prefix manchester: <https://data.rijksfinancien.nl/manchester/model/def/>
+prefix owl: <http://www.w3.org/2002/07/owl#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> 
+
+construct {
+  # create the manchester syntax for the named individual to be serialized.
+  $this manchester:syntax 'CONCEPT';
+        manchester:class 'Type: Concept';
+        manchester:label ?manchesterLabel.
+
+} where {
+
+  # Label of the concept 
+  BIND(function:getLabel($this) as ?manchesterLabel)
+}
+
 """.
 
 function:getPrefixedIRI
