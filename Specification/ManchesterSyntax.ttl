@@ -1213,7 +1213,7 @@ select $this {
     $this rdfs:domain ?someDomainClass.
     ?someDomainClass ?anyPredicate [].
     filter not exists {
-     ?someClass manchester:label []
+     ?someDomainClass manchester:label []
    }
   }
  }
